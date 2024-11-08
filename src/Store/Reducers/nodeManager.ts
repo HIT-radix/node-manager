@@ -9,6 +9,14 @@ const initialState: NodeManagerReducer = {
   unlockedLSUs: "0",
   unlockingLSUsBreakdown: [],
   epoch: 0,
+  metadata: {},
+  stakeUnitAddress: "",
+  vaults: {
+    NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS: "",
+    NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS: "",
+    NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS: "",
+    NODE_UNSTAKING_XRD_VAULT_ADDRESS: "",
+  },
 };
 
 const nodeManager = createSlice({
@@ -23,6 +31,9 @@ const nodeManager = createSlice({
       state.unlockingLSUsBreakdown = action.payload.unlockingLSUsBreakdown;
       state.epoch = action.payload.epoch;
       state.unlockedLSUs = action.payload.unlockedLSUs;
+      state.metadata = action.payload.metadata;
+      state.stakeUnitAddress = action.payload.stakeUnitAddress;
+      state.vaults = action.payload.vaults;
     },
   },
 });

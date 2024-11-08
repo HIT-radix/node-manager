@@ -48,6 +48,14 @@ export type NodeManagerReducer = {
   unlockedLSUs: string;
   unlockingLSUsBreakdown: UnlockingRewards;
   epoch: number;
+  metadata: Record<string, string>;
+  stakeUnitAddress: string;
+  vaults: {
+    NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS: string;
+    NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS: string;
+    NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS: string;
+    NODE_UNSTAKING_XRD_VAULT_ADDRESS: string;
+  };
 };
 
 export enum StakingTokens {

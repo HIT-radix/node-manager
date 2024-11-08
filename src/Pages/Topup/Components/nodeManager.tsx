@@ -22,7 +22,7 @@ const NodeManager = () => {
 
   useEffect(() => {
     (async () => {
-      await fetchValidatorInfo();
+      await fetchValidatorInfo("asdad");
     })();
   }, []);
 
