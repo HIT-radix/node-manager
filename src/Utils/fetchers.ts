@@ -44,8 +44,8 @@ import {
 } from "Store/Reducers/loadings";
 import CachedService from "Classes/cachedService";
 import { setValidatorInfo } from "Store/Reducers/nodeManager";
-import { EntityMetadataItem } from "@radixdlt/radix-dapp-toolkit";
 import { EntityMetadataCollection } from "@radixdlt/babylon-gateway-api-sdk";
+import Decimal from "decimal.js";
 
 export const fetchBalances = async (walletAddress: string) => {
   let HITbalance = "0";
@@ -357,6 +357,25 @@ const extractVaultsAdresses = (state: object) => {
   };
 };
 
+const filterPendingWithdrawlsFromUnlockedLSUs = (
+  pendingWithdrawls: UnlockingRewards,
+  currentEpoch: number
+) => {
+  let unlockedLSUsAmount = new Decimal(0);
+  let lsuInUnlockingProcess = new Decimal(0);
+  const filteredWithdrawls = pendingWithdrawls.filter((withdrawl) => {
+    const isUnlocked = withdrawl.epoch_unlocked <= currentEpoch;
+    if (isUnlocked) {
+      unlockedLSUsAmount = unlockedLSUsAmount.add(withdrawl.stake_unit_amount);
+    } else {
+      lsuInUnlockingProcess = lsuInUnlockingProcess.add(withdrawl.stake_unit_amount);
+    }
+    return !isUnlocked;
+  });
+
+  return { filteredWithdrawls, unlockedLSUsAmount, lsuInUnlockingProcess };
+};
+
 export const fetchValidatorInfo = async (validatorAddress: string) => {
   store.dispatch(setValidatorDataLoading(true));
 
@@ -367,7 +386,8 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
   const vaultsBalance: Record<string, string> = {};
   let rewardsInUnlockingProcess: UnlockingRewards = [];
   const epoch = res.ledger_state.epoch;
-  let unlockedLSUs = "0";
+  let unlockedLSUs = new Decimal(0);
+  let ownerLSUsInUnlockingProcess = new Decimal(0);
   let stakeUnitAddress = "";
 
   if (validatorInfo?.details?.type === "Component" && validatorInfo?.details?.state) {
@@ -389,11 +409,19 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
     });
 
     if ("pending_owner_stake_unit_withdrawals" in validatorState) {
-      rewardsInUnlockingProcess =
-        validatorState.pending_owner_stake_unit_withdrawals as UnlockingRewards;
+      const { filteredWithdrawls, unlockedLSUsAmount, lsuInUnlockingProcess } =
+        filterPendingWithdrawlsFromUnlockedLSUs(
+          validatorState.pending_owner_stake_unit_withdrawals as UnlockingRewards,
+          epoch
+        );
+      rewardsInUnlockingProcess = filteredWithdrawls;
+      unlockedLSUs = unlockedLSUs.add(unlockedLSUsAmount);
+      ownerLSUsInUnlockingProcess = ownerLSUsInUnlockingProcess.add(lsuInUnlockingProcess);
     }
     if ("already_unlocked_owner_stake_unit_amount" in validatorState) {
-      unlockedLSUs = validatorState.already_unlocked_owner_stake_unit_amount as string;
+      unlockedLSUs = unlockedLSUs.add(
+        validatorState.already_unlocked_owner_stake_unit_amount as string
+      );
     }
     if ("stake_unit_resource_address" in validatorState) {
       stakeUnitAddress = validatorState.stake_unit_resource_address as string;
@@ -402,12 +430,12 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
     store.dispatch(
       setValidatorInfo({
         currentlyEarnedLockedLSUs: vaultsBalance[NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS] || "0",
-        ownerLSUsInUnlockingProcess: vaultsBalance[NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS] || "0",
+        ownerLSUsInUnlockingProcess: ownerLSUsInUnlockingProcess.toString(),
         totalStakedXrds: vaultsBalance[NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS] || "0",
         totalXrdsLeavingOurNode: vaultsBalance[NODE_UNSTAKING_XRD_VAULT_ADDRESS] || "0",
         unlockingLSUsBreakdown: rewardsInUnlockingProcess,
         epoch,
-        unlockedLSUs,
+        unlockedLSUs: unlockedLSUs.toString(),
         metadata,
         stakeUnitAddress,
         vaults: {
