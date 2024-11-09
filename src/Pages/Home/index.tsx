@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { fetchValidatorInfo } from "Utils/fetchers";
+import NodeManager from "./components/nodeManager";
+import NodeMetadata from "./components/nodeMetadata";
 
 const Home = () => {
   const [inputAddress, setInputAddress] = useState("");
@@ -20,6 +22,8 @@ const Home = () => {
           Search
         </div>
       </div>
+      <NodeMetadata />
+      <NodeManager />
     </div>
   );
 };

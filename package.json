@@ -19,6 +19,7 @@
     "decimal.js": "^10.4.3",
     "ethers": "^6.13.4",
     "fs": "^0.0.1-security",
+    "lucide-react": "^0.456.0",
     "numbro": "^2.5.0",
     "path": "^0.12.7",
     "postcss": "^8.4.47",
