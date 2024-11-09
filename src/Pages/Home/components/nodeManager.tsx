@@ -69,7 +69,8 @@ const NodeManager = () => {
       </div>
       <UnlockingLSUsTable unlockingLSUsBreakdown={unlockingLSUsBreakdown} currentEpoch={epoch} />
       <p className="my-5 text-4xl text-secondary font-bold border-y border-secondary">STEP 3</p>
-      <div className="min-w-[300px] mb-5">
+      <p className="text-accent text-center text-2xl font-bold">Claim Unlocked LSUs</p>
+      <div className="min-w-[300px] my-4">
         <InfoTile
           title="Unlocked LSUs🔓 (owner only)"
           value={formatTokenAmount(+unlockedLSUs)}
@@ -87,7 +88,7 @@ const NodeManager = () => {
           Number(unlockedLSUs) > 0 ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-30"
         }`}
       >
-        Claim Unlocked LSUs
+        Claim
       </div>
     </div>
   );
