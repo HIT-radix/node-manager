@@ -6,6 +6,7 @@
     "@radixdlt/babylon-core-api-sdk": "^1.2.3",
     "@radixdlt/babylon-gateway-api-sdk": "^1.7.3",
     "@radixdlt/radix-dapp-toolkit": "^2.1.1",
+    "@radixdlt/radix-engine-toolkit": "^1.0.5",
     "@reduxjs/toolkit": "^2.3.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

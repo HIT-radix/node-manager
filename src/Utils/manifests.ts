@@ -412,3 +412,39 @@ export const getWithdrawFromNodeManifest = (
     ;
   `;
 };
+
+export const simulateTx = async (manifest: string) => {
+  const latestLedgerState =
+    await CachedService.gatewayApi.transaction.innerClient.transactionConstruction();
+
+  const nonce = generateRandomNonce();
+
+  const preview = await CachedService.gatewayApi.transaction.innerClient.transactionPreview({
+    transactionPreviewRequest: {
+      manifest,
+      nonce,
+      tip_percentage: 0,
+      flags: {
+        use_free_credit: true,
+        assume_all_signature_proofs: true,
+        skip_epoch_check: true,
+      },
+      start_epoch_inclusive: latestLedgerState.ledger_state.epoch,
+      end_epoch_exclusive: latestLedgerState.ledger_state.epoch + 1,
+      signer_public_keys: [],
+    },
+  });
+  console.log("preview", preview);
+  return preview;
+};
+
+export const test = () => {
+  simulateTx(
+    getWithdrawFromNodeManifest(
+      "account_rdx129xg758ryxg7xc080nv0c0k9xrcdv3ezve6kqpj665q38cv23kamph",
+      "resource_rdx1ngyn7ea28quxf44fsg4hxq6q6fhah2lwh5t32sarglygp9xl76c4tz",
+      "{e9485e632f2d0f4e-280beb51fb348ca3-cc869790f97cdee0-601d606d17c2f547}",
+      "validator_rdx1swez5cqmw4d6tls0mcldehnfhpxge0mq7cmnypnjz909apqqjgx6n9"
+    )
+  );
+};

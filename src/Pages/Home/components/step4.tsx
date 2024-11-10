@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "Store";
 import { StakingTokens } from "Types/reducers";
 import { formatTokenAmount } from "Utils/format";
-import { unstakeFromNodeValidator } from "Utils/txSenders";
+import { startUnstakeFromNodeValidator } from "Utils/txSenders";
 
 const Step4 = () => {
   const { metadata, stakeUnitAddress, validatorAddress } = useSelector(
@@ -23,7 +23,7 @@ const Step4 = () => {
 
   const handleUnstake = async (amount: string) => {
     if ("claim_nft" in metadata && stakeUnitAddress && validatorAddress) {
-      await unstakeFromNodeValidator(
+      await startUnstakeFromNodeValidator(
         amount,
         validatorAddress,
         stakeUnitAddress,
