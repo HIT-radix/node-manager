@@ -48,7 +48,7 @@ const Step4 = () => {
         placeholder="Enter LSU amount to unstake"
         balance={userLSUBalance}
         onButtonClick={(amount) => handleUnstake(amount)}
-        btnText="Unlock Earned LSUs"
+        btnText="Unstake from this node"
         tokenSymbol={StakingTokens.LSU}
         isOwner={true}
       />
