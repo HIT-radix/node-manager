@@ -1,6 +1,6 @@
 import { dispatch, useSelector } from "Store";
 import { setIsOwner } from "Store/Reducers/session";
-import { fetchBalances } from "Utils/fetchers";
+import { fetchBalances, fetchValidatorInfo } from "Utils/fetchers";
 import { useEffect } from "react";
 import { initializeSubscriptions, unsubscribeAll } from "subs";
 
@@ -9,6 +9,7 @@ const Listeners = () => {
   const walletAddress = useSelector((state) => state.app.walletAddress);
   const nonFungibles = useSelector((state) => state.session.userBalances.nonFungible);
   const metadata = useSelector((state) => state.nodeManager.metadata);
+  const validatorAddress = useSelector((state) => state.nodeManager.validatorAddress);
 
   useEffect(() => {
     initializeSubscriptions();
@@ -34,7 +35,13 @@ const Listeners = () => {
     } else {
       dispatch(setIsOwner(false));
     }
-  }, [metadata, nonFungibles]);
+  }, [metadata, nonFungibles, successTxCount]);
+
+  useEffect(() => {
+    if (validatorAddress) {
+      fetchValidatorInfo(validatorAddress);
+    }
+  }, [validatorAddress, successTxCount]);
 
   return <></>;
 };

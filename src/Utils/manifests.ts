@@ -340,3 +340,38 @@ export const getFinishUnlockLSUProcessManifest = (walletAddress: string) => {
     ;
   `;
 };
+
+export const getUnstakeFromValidatorManifest = (
+  walletAddress: string,
+  amount: string,
+  validatorAddress: string,
+  LSUAddress: string,
+  claimNFTaddress: string
+) => {
+  return `
+    CALL_METHOD
+      Address("${walletAddress}")
+      "withdraw"
+      Address("${LSUAddress}")
+      Decimal("${amount}")
+    ;
+    TAKE_ALL_FROM_WORKTOP
+      Address("${LSUAddress}")
+      Bucket("bucket1")
+    ;
+    CALL_METHOD
+      Address("${validatorAddress}")
+      "unstake"
+      Bucket("bucket1")
+    ;
+    TAKE_ALL_FROM_WORKTOP
+      Address("${claimNFTaddress}")
+      Bucket("bucket2")
+    ;
+    CALL_METHOD
+      Address("${walletAddress}")
+      "deposit"
+      Bucket("bucket2")
+    ;
+  `;
+};

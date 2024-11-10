@@ -45,6 +45,7 @@ export type StakingReducer = {
 };
 
 export type NodeManagerReducer = {
+  validatorAddress: string;
   ownerLSUsInUnlockingProcess: string;
   currentlyEarnedLockedLSUs: string;
   totalXrdsLeavingOurNode: string;

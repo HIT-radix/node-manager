@@ -23,6 +23,7 @@ import {
   ClaimAndStakeSuccessToast,
   ClaimLSUSuccessToast,
   UnlockLSUSuccessToast,
+  UnstakeSuccessToast,
 } from "Components/toasts";
 import axios from "axios";
 import { HIT_SERVER_URL } from "Constants/endpoints";
@@ -37,6 +38,7 @@ import {
   getStakeInNodeValidatorManifest,
   getStakeTxManifest,
   getUnlockEarnedLSUManifest,
+  getUnstakeFromValidatorManifest,
   getUnStakeTxManifest,
   getWithdrawNodeStakingRewardAndStakeHITManifest,
   getWithdrawNodeStakingRewardsManifest,
@@ -341,5 +343,33 @@ export const finishNodeLSUnlockProcess = async (amount: string) => {
     });
   } catch (error) {
     console.log("Unable to finish unlock LSU process in node validator");
+  }
+};
+
+export const unstakeFromNodeValidator = async (
+  amount: string,
+  validatorAddress: string,
+  LSUAddress: string,
+  claimNFTaddress: string
+) => {
+  try {
+    const {
+      app: { walletAddress },
+    } = store.getState();
+
+    return await baseTxSender({
+      amount: amount,
+      txManifest: getUnstakeFromValidatorManifest(
+        walletAddress,
+        amount,
+        validatorAddress,
+        LSUAddress,
+        claimNFTaddress
+      ),
+      ToastElement: UnstakeSuccessToast,
+      tokenSymbol: StakingTokens.LSU,
+    });
+  } catch (error) {
+    console.log("Unable to unstake from node validator");
   }
 };

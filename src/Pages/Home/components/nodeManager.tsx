@@ -6,6 +6,7 @@ import { StakingTokens } from "Types/reducers";
 import GeneralOwnerInterface from "Components/generalOwnerInterface";
 import { useSelector } from "Store";
 import ClaimUnlockedBtn from "./claimUnlockedBtn";
+import Step4 from "./step4";
 
 const NodeManager = () => {
   const {
@@ -25,7 +26,7 @@ const NodeManager = () => {
       <div className="grid grid-cols-12 w-[95vw] max-w-[650px] mb-5 gap-3">
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center">
           <InfoTile
-            title="Total XRD staked in node"
+            title="Total XRD staked in this node"
             value={formatTokenAmount(+totalStakedXrds)}
             isLoading={validatorDataLoading}
             tooltip={totalStakedXrds}
@@ -33,7 +34,7 @@ const NodeManager = () => {
         </div>
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center ">
           <InfoTile
-            title="Total XRD leaving our node"
+            title="Total XRD leaving this node"
             value={formatTokenAmount(+totalXrdsLeavingOurNode)}
             isLoading={validatorDataLoading}
             tooltip={totalXrdsLeavingOurNode}
@@ -82,6 +83,7 @@ const NodeManager = () => {
         />
       </div>
       <ClaimUnlockedBtn />
+      <Step4 />
     </div>
   );
 };

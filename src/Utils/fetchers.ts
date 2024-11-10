@@ -494,6 +494,7 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
           NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
           NODE_UNSTAKING_XRD_VAULT_ADDRESS,
         },
+        validatorAddress,
       })
     );
     store.dispatch(setValidatorDataLoading(false));

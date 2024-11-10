@@ -330,3 +330,30 @@ export const ClaimLSUSuccessToast = ({
     />
   );
 };
+
+export const UnstakeSuccessToast = ({
+  amount,
+  token,
+  txId,
+}: {
+  amount: string;
+  token: StakingTokens;
+  txId: string;
+}) => {
+  return (
+    <BaseToast
+      heading="Unstake Transaction Successful"
+      subHeading={
+        <>
+          <span className="font-semibold mr-1">
+            {amount} <span className="mesh-text-gradient">LSUs</span>
+          </span>
+          unstaked successfully.
+        </>
+      }
+      twHeadingClass="text-base-content"
+      twSubHeadingClass="text-base-content"
+      txId={txId}
+    />
+  );
+};

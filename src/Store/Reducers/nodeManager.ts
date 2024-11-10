@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NodeManagerReducer } from "Types/reducers";
 
 const initialState: NodeManagerReducer = {
+  validatorAddress: "",
   currentlyEarnedLockedLSUs: "0",
   ownerLSUsInUnlockingProcess: "0",
   totalStakedXrds: "0",
@@ -34,6 +35,7 @@ const nodeManager = createSlice({
       state.metadata = action.payload.metadata;
       state.stakeUnitAddress = action.payload.stakeUnitAddress;
       state.vaults = action.payload.vaults;
+      state.validatorAddress = action.payload.validatorAddress;
     },
   },
 });

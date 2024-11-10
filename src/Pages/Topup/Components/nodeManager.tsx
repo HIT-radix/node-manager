@@ -39,7 +39,7 @@ const NodeManager = () => {
         </div>
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center ">
           <InfoTile
-            title="Total XRD leaving our node"
+            title="Total XRD leaving this node"
             value={formatTokenAmount(+totalXrdsLeavingOurNode)}
             isLoading={validatorDataLoading}
             tooltip={totalXrdsLeavingOurNode}
