@@ -44,7 +44,7 @@ import {
   setUnstakeClaimNFtsDataLoading,
 } from "Store/Reducers/loadings";
 import CachedService from "Classes/cachedService";
-import { setValidatorInfo } from "Store/Reducers/nodeManager";
+import { clearValidatorInfo, setValidatorInfo } from "Store/Reducers/nodeManager";
 import {
   EntityMetadataCollection,
   FungibleResourcesCollectionItem,
@@ -432,78 +432,90 @@ const filterPendingWithdrawlsFromUnlockedLSUs = (
 };
 
 export const fetchValidatorInfo = async (validatorAddress: string) => {
-  store.dispatch(setValidatorDataLoading(true));
-
-  const res = await CachedService.gatewayApi.state.innerClient.stateEntityDetails({
-    stateEntityDetailsRequest: { addresses: [validatorAddress], aggregation_level: "Vault" },
-  });
-  const validatorInfo = res.items[0];
-  const vaultsBalance: Record<string, string> = {};
-  let rewardsInUnlockingProcess: UnlockingRewards = [];
-  const epoch = res.ledger_state.epoch;
-  let unlockedLSUs = new Decimal(0);
-  let ownerLSUsInUnlockingProcess = new Decimal(0);
-  let stakeUnitAddress = "";
-
-  if (validatorInfo?.details?.type === "Component" && validatorInfo?.details?.state) {
-    const metadata = extractMetadata(res.items[0].metadata);
-    const validatorState = validatorInfo?.details?.state;
-    const {
-      NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
-      NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
-      NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
-      NODE_UNSTAKING_XRD_VAULT_ADDRESS,
-    } = extractVaultsAdresses(validatorState);
-
-    validatorInfo?.fungible_resources?.items.forEach((resource) => {
-      if (resource.aggregation_level === "Vault") {
-        resource.vaults.items.forEach((vault) => {
-          vaultsBalance[vault.vault_address] = vault.amount;
-        });
-      }
-    });
-
-    if ("pending_owner_stake_unit_withdrawals" in validatorState) {
-      const { filteredWithdrawls, unlockedLSUsAmount, lsuInUnlockingProcess } =
-        filterPendingWithdrawlsFromUnlockedLSUs(
-          validatorState.pending_owner_stake_unit_withdrawals as UnlockingRewards,
-          epoch
-        );
-      rewardsInUnlockingProcess = filteredWithdrawls;
-      unlockedLSUs = unlockedLSUs.add(unlockedLSUsAmount);
-      ownerLSUsInUnlockingProcess = ownerLSUsInUnlockingProcess.add(lsuInUnlockingProcess);
-    }
-    if ("already_unlocked_owner_stake_unit_amount" in validatorState) {
-      unlockedLSUs = unlockedLSUs.add(
-        validatorState.already_unlocked_owner_stake_unit_amount as string
-      );
-    }
-    if ("stake_unit_resource_address" in validatorState) {
-      stakeUnitAddress = validatorState.stake_unit_resource_address as string;
-    }
-
-    store.dispatch(
-      setValidatorInfo({
-        currentlyEarnedLockedLSUs: vaultsBalance[NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS] || "0",
-        ownerLSUsInUnlockingProcess: ownerLSUsInUnlockingProcess.toString(),
-        totalStakedXrds: vaultsBalance[NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS] || "0",
-        totalXrdsLeavingOurNode: vaultsBalance[NODE_UNSTAKING_XRD_VAULT_ADDRESS] || "0",
-        unlockingLSUsBreakdown: rewardsInUnlockingProcess,
-        epoch,
-        unlockedLSUs: unlockedLSUs.toString(),
-        metadata,
-        stakeUnitAddress,
-        vaults: {
-          NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
-          NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
-          NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
-          NODE_UNSTAKING_XRD_VAULT_ADDRESS,
-        },
-        validatorAddress,
-      })
-    );
-    store.dispatch(setValidatorDataLoading(false));
+  if (validatorAddress === "" || !validatorAddress.startsWith("validator_")) {
+    dispatch(clearValidatorInfo());
+    return;
   }
+
+  try {
+    store.dispatch(setValidatorDataLoading(true));
+
+    const res = await CachedService.gatewayApi.state.innerClient.stateEntityDetails({
+      stateEntityDetailsRequest: { addresses: [validatorAddress], aggregation_level: "Vault" },
+    });
+    const validatorInfo = res.items[0];
+    const vaultsBalance: Record<string, string> = {};
+    let rewardsInUnlockingProcess: UnlockingRewards = [];
+    const epoch = res.ledger_state.epoch;
+    let unlockedLSUs = new Decimal(0);
+    let ownerLSUsInUnlockingProcess = new Decimal(0);
+    let stakeUnitAddress = "";
+
+    if (validatorInfo?.details?.type === "Component" && validatorInfo?.details?.state) {
+      const metadata = extractMetadata(res.items[0].metadata);
+      const validatorState = validatorInfo?.details?.state;
+      const {
+        NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
+        NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
+        NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
+        NODE_UNSTAKING_XRD_VAULT_ADDRESS,
+      } = extractVaultsAdresses(validatorState);
+
+      validatorInfo?.fungible_resources?.items.forEach((resource) => {
+        if (resource.aggregation_level === "Vault") {
+          resource.vaults.items.forEach((vault) => {
+            vaultsBalance[vault.vault_address] = vault.amount;
+          });
+        }
+      });
+
+      if ("pending_owner_stake_unit_withdrawals" in validatorState) {
+        const { filteredWithdrawls, unlockedLSUsAmount, lsuInUnlockingProcess } =
+          filterPendingWithdrawlsFromUnlockedLSUs(
+            validatorState.pending_owner_stake_unit_withdrawals as UnlockingRewards,
+            epoch
+          );
+        rewardsInUnlockingProcess = filteredWithdrawls;
+        unlockedLSUs = unlockedLSUs.add(unlockedLSUsAmount);
+        ownerLSUsInUnlockingProcess = ownerLSUsInUnlockingProcess.add(lsuInUnlockingProcess);
+      }
+      if ("already_unlocked_owner_stake_unit_amount" in validatorState) {
+        unlockedLSUs = unlockedLSUs.add(
+          validatorState.already_unlocked_owner_stake_unit_amount as string
+        );
+      }
+      if ("stake_unit_resource_address" in validatorState) {
+        stakeUnitAddress = validatorState.stake_unit_resource_address as string;
+      }
+
+      store.dispatch(
+        setValidatorInfo({
+          currentlyEarnedLockedLSUs: vaultsBalance[NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS] || "0",
+          ownerLSUsInUnlockingProcess: ownerLSUsInUnlockingProcess.toString(),
+          totalStakedXrds: vaultsBalance[NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS] || "0",
+          totalXrdsLeavingOurNode: vaultsBalance[NODE_UNSTAKING_XRD_VAULT_ADDRESS] || "0",
+          unlockingLSUsBreakdown: rewardsInUnlockingProcess,
+          epoch,
+          unlockedLSUs: unlockedLSUs.toString(),
+          metadata,
+          stakeUnitAddress,
+          vaults: {
+            NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
+            NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
+            NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
+            NODE_UNSTAKING_XRD_VAULT_ADDRESS,
+          },
+          validatorAddress,
+        })
+      );
+    } else {
+      dispatch(clearValidatorInfo());
+    }
+  } catch (error) {
+    console.log("error in fetchValidatorInfo", error);
+    dispatch(clearValidatorInfo());
+  }
+  store.dispatch(setValidatorDataLoading(false));
 };
 
 export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: string[]) => {

@@ -81,9 +81,7 @@ const NodeMetadata = () => {
             </div>
           </div>
         </>
-      ) : (
-        <p className="text-accent">No Metdata :(</p>
-      )}
+      ) : null}
     </div>
   );
 };

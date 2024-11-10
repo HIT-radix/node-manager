@@ -37,9 +37,27 @@ const nodeManager = createSlice({
       state.vaults = action.payload.vaults;
       state.validatorAddress = action.payload.validatorAddress;
     },
+    clearValidatorInfo(state) {
+      state.currentlyEarnedLockedLSUs = "0";
+      state.ownerLSUsInUnlockingProcess = "0";
+      state.totalStakedXrds = "0";
+      state.totalXrdsLeavingOurNode = "0";
+      state.unlockedLSUs = "0";
+      state.unlockingLSUsBreakdown = [];
+      state.epoch = 0;
+      state.metadata = {};
+      state.stakeUnitAddress = "";
+      state.vaults = {
+        NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS: "",
+        NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS: "",
+        NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS: "",
+        NODE_UNSTAKING_XRD_VAULT_ADDRESS: "",
+      };
+      state.validatorAddress = "";
+    },
   },
 });
 
 export default nodeManager.reducer;
 
-export const { setValidatorInfo } = nodeManager.actions;
+export const { setValidatorInfo, clearValidatorInfo } = nodeManager.actions;

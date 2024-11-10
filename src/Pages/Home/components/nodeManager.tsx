@@ -17,11 +17,12 @@ const NodeManager = () => {
     totalStakedXrds,
     totalXrdsLeavingOurNode,
     unlockedLSUs,
+    validatorAddress,
   } = useSelector((state) => state.nodeManager);
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
   const isOwner = useSelector((state) => state.session.isOwner);
 
-  return (
+  return validatorAddress ? (
     <div className="flex flex-col items-center justify-center mt-10">
       <div className="grid grid-cols-12 w-[95vw] max-w-[650px] mb-5 gap-3">
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center">
@@ -87,7 +88,7 @@ const NodeManager = () => {
       <Step5 />
       <Step6 />
     </div>
-  );
+  ) : null;
 };
 
 export default NodeManager;
