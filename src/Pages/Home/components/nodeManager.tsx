@@ -71,7 +71,7 @@ const NodeManager = () => {
           tooltip={ownerLSUsInUnlockingProcess}
         />
       </div>
-      <UnlockingLSUsTable unlockingLSUsBreakdown={unlockingLSUsBreakdown} currentEpoch={epoch} />
+      <UnlockingLSUsTable />
       <p className="my-5 text-4xl text-secondary font-bold border-y border-secondary">STEP 3</p>
       <p className="text-accent text-center text-2xl font-bold">Claim Unlocked LSUs</p>
       <div className="min-w-[300px] my-4">
