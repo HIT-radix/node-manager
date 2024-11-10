@@ -24,17 +24,17 @@ const Step4 = () => {
   const handleUnstake = async (amount: string) => {
     if ("claim_nft" in metadata && stakeUnitAddress && validatorAddress) {
       await unstakeFromNodeValidator(
-        metadata.claim_nft,
-        stakeUnitAddress,
+        amount,
         validatorAddress,
-        amount
+        stakeUnitAddress,
+        metadata.claim_nft
       );
     }
   };
   return (
     <>
       <p className="my-5 text-4xl text-secondary font-bold border-y border-secondary">STEP 4</p>
-      <p className="text-accent text-center text-2xl font-bold">Unstake from this Node</p>
+      <p className="text-accent text-center text-2xl font-bold">Start unstake from this Node</p>
       <div className="min-w-[300px] my-4">
         <InfoTile
           title="Your LSU balance of this node"
