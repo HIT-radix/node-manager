@@ -54,7 +54,7 @@ const GeneralOwnerInterface = ({
     () =>
       !walletAddress
         ? "Connect Wallet"
-        : isOwner
+        : !isOwner
         ? "Owner Only"
         : !amount
         ? "Enter an amount"
