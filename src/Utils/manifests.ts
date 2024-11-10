@@ -12,6 +12,8 @@ import {
 } from "Constants/address";
 import { RewardTokenDistribution } from "Types/token";
 import { formatRewardTokenDistribution } from "./format";
+import CachedService from "Classes/cachedService";
+import { generateRandomNonce } from "@radixdlt/radix-engine-toolkit";
 
 export const getStakeTxManifest = (walletAddress: string, amount: string) => {
   return `
@@ -341,7 +343,7 @@ export const getFinishUnlockLSUProcessManifest = (walletAddress: string) => {
   `;
 };
 
-export const getUnstakeFromValidatorManifest = (
+export const getStartUnstakeFromValidatorManifest = (
   walletAddress: string,
   amount: string,
   validatorAddress: string,
@@ -372,6 +374,41 @@ export const getUnstakeFromValidatorManifest = (
       Address("${walletAddress}")
       "deposit"
       Bucket("bucket2")
+    ;
+  `;
+};
+
+export const getWithdrawFromNodeManifest = (
+  walletAddress: string,
+  claimNFTaddress: string,
+  claimNftId: string,
+  validatorAddress: string
+) => {
+  return `
+    CALL_METHOD
+      Address("${walletAddress}")
+      "withdraw_non_fungibles"
+      Address("${claimNFTaddress}")
+      Array<NonFungibleLocalId>(
+        NonFungibleLocalId("${claimNftId}")
+      )
+    ;
+
+    TAKE_ALL_FROM_WORKTOP
+      Address("${claimNFTaddress}")
+      Bucket("bucket1")
+    ;
+
+    CALL_METHOD
+      Address("${validatorAddress}")
+      "claim_xrd"
+      Bucket("bucket1")
+    ;
+
+    CALL_METHOD
+      Address("${walletAddress}")
+      "deposit_batch"
+      Expression("ENTIRE_WORKTOP")
     ;
   `;
 };

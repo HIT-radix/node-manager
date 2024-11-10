@@ -357,3 +357,30 @@ export const UnstakeSuccessToast = ({
     />
   );
 };
+
+export const WithdrawSuccessToast = ({
+  amount,
+  token,
+  txId,
+}: {
+  amount: string;
+  token: StakingTokens;
+  txId: string;
+}) => {
+  return (
+    <BaseToast
+      heading="Withdraw Transaction Successful"
+      subHeading={
+        <>
+          <span className="font-semibold mr-1">
+            {amount} <span className="mesh-text-gradient">XRDs</span>
+          </span>
+          withdrawn successfully.
+        </>
+      }
+      twHeadingClass="text-base-content"
+      twSubHeadingClass="text-base-content"
+      txId={txId}
+    />
+  );
+};

@@ -97,6 +97,7 @@ export type UnlockingRewards = {
 export type UnstakeClaimNFTDATA = Record<
   string,
   {
+    nftId: string;
     claim_amount: string;
     claim_epoch: string;
   }

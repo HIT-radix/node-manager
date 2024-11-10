@@ -8,6 +8,7 @@ import { useSelector } from "Store";
 import ClaimUnlockedBtn from "./claimUnlockedBtn";
 import Step4 from "./step4";
 import Step5 from "./step5";
+import Step6 from "./step6";
 
 const NodeManager = () => {
   const {
@@ -84,6 +85,7 @@ const NodeManager = () => {
       <ClaimUnlockedBtn />
       <Step4 />
       <Step5 />
+      <Step6 />
     </div>
   );
 };

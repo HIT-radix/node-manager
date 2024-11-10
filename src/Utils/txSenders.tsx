@@ -24,6 +24,7 @@ import {
   ClaimLSUSuccessToast,
   UnlockLSUSuccessToast,
   UnstakeSuccessToast,
+  WithdrawSuccessToast,
 } from "Components/toasts";
 import axios from "axios";
 import { HIT_SERVER_URL } from "Constants/endpoints";
@@ -38,10 +39,11 @@ import {
   getStakeInNodeValidatorManifest,
   getStakeTxManifest,
   getUnlockEarnedLSUManifest,
-  getUnstakeFromValidatorManifest,
+  getStartUnstakeFromValidatorManifest,
   getUnStakeTxManifest,
   getWithdrawNodeStakingRewardAndStakeHITManifest,
   getWithdrawNodeStakingRewardsManifest,
+  getWithdrawFromNodeManifest,
 } from "./manifests";
 import { ClaimableRewardsInfo, RewardTokenDistribution } from "Types/token";
 
@@ -346,7 +348,7 @@ export const finishNodeLSUnlockProcess = async (amount: string) => {
   }
 };
 
-export const unstakeFromNodeValidator = async (
+export const startUnstakeFromNodeValidator = async (
   amount: string,
   validatorAddress: string,
   LSUAddress: string,
@@ -359,7 +361,7 @@ export const unstakeFromNodeValidator = async (
 
     return await baseTxSender({
       amount: amount,
-      txManifest: getUnstakeFromValidatorManifest(
+      txManifest: getStartUnstakeFromValidatorManifest(
         walletAddress,
         amount,
         validatorAddress,
@@ -368,6 +370,33 @@ export const unstakeFromNodeValidator = async (
       ),
       ToastElement: UnstakeSuccessToast,
       tokenSymbol: StakingTokens.LSU,
+    });
+  } catch (error) {
+    console.log("Unable to unstake from node validator");
+  }
+};
+
+export const withdrawFromNodeValidator = async (
+  amount: string,
+  validatorAddress: string,
+  claimNFTaddress: string,
+  nftId: string
+) => {
+  try {
+    const {
+      app: { walletAddress },
+    } = store.getState();
+
+    return await baseTxSender({
+      amount: amount,
+      txManifest: getWithdrawFromNodeManifest(
+        walletAddress,
+        claimNFTaddress,
+        nftId,
+        validatorAddress
+      ),
+      ToastElement: WithdrawSuccessToast,
+      tokenSymbol: StakingTokens.XRD,
     });
   } catch (error) {
     console.log("Unable to unstake from node validator");
