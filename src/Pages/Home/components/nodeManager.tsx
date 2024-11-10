@@ -7,15 +7,14 @@ import GeneralOwnerInterface from "Components/generalOwnerInterface";
 import { useSelector } from "Store";
 import ClaimUnlockedBtn from "./claimUnlockedBtn";
 import Step4 from "./step4";
+import Step5 from "./step5";
 
 const NodeManager = () => {
   const {
     currentlyEarnedLockedLSUs,
-    epoch,
     ownerLSUsInUnlockingProcess,
     totalStakedXrds,
     totalXrdsLeavingOurNode,
-    unlockingLSUsBreakdown,
     unlockedLSUs,
   } = useSelector((state) => state.nodeManager);
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
@@ -84,6 +83,7 @@ const NodeManager = () => {
       </div>
       <ClaimUnlockedBtn />
       <Step4 />
+      <Step5 />
     </div>
   );
 };
