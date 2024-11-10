@@ -1,6 +1,6 @@
 import { dispatch, useSelector } from "Store";
 import { setIsOwner } from "Store/Reducers/session";
-import { fetchBalances, fetchValidatorInfo } from "Utils/fetchers";
+import { fetchBalances, fetchUnstakeCLaimNFTData, fetchValidatorInfo } from "Utils/fetchers";
 import { useEffect } from "react";
 import { initializeSubscriptions, unsubscribeAll } from "subs";
 
@@ -19,9 +19,7 @@ const Listeners = () => {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      await fetchBalances(walletAddress);
-    })();
+    fetchBalances(walletAddress);
   }, [successTxCount, walletAddress]);
 
   useEffect(() => {
@@ -42,6 +40,14 @@ const Listeners = () => {
       fetchValidatorInfo(validatorAddress);
     }
   }, [validatorAddress, successTxCount]);
+
+  useEffect(() => {
+    // TODO - epmty this state if wallet disconnects
+    if ("claim_nft" in metadata && nonFungibles[metadata.claim_nft]) {
+      const nftIds = nonFungibles[metadata.claim_nft].ids;
+      fetchUnstakeCLaimNFTData(metadata.claim_nft, nftIds);
+    }
+  }, [metadata, nonFungibles]);
 
   return <></>;
 };

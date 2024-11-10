@@ -3,7 +3,11 @@ import axios, { AxiosResponse } from "axios";
 import { Ociswap_baseurl, networkRPC } from "Constants/endpoints";
 import { dispatch, store } from "Store";
 import { setHitFomoPrices } from "Store/Reducers/app";
-import { setUserBalances, updateHitFomoData } from "Store/Reducers/session";
+import {
+  setUnstakeClaimNFTsData,
+  setUserBalances,
+  updateHitFomoData,
+} from "Store/Reducers/session";
 import {
   setLockedHITRewards,
   setLockedNodeStakingFomos,
@@ -14,8 +18,8 @@ import {
 } from "Store/Reducers/staking";
 import { FungibleBalances, NonFungibleBalances, StakingTokens, Tabs } from "Types/reducers";
 import { TokenData } from "Types/token";
-import { BN, extractBalances } from "./format";
-import { EntityDetails, UnlockingRewards } from "Types/api";
+import { BN, chunkArray, extractBalances } from "./format";
+import { EntityDetails, UnlockingRewards, UnstakeClaimNFTDATA } from "Types/api";
 import {
   NODE_STAKING_USER_BADGE_ADDRESS,
   NODE_STAKING_FOMO_KEY_VALUE_STORE_ADDRESS,
@@ -37,6 +41,7 @@ import {
   setNodeStakingComponentDataLoading,
   setValidatorDataLoading,
   setBalanceLoading,
+  setUnstakeClaimNFtsDataLoading,
 } from "Store/Reducers/loadings";
 import CachedService from "Classes/cachedService";
 import { setValidatorInfo } from "Store/Reducers/nodeManager";
@@ -499,4 +504,34 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
     );
     store.dispatch(setValidatorDataLoading(false));
   }
+};
+
+export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: string[]) => {
+  dispatch(setUnstakeClaimNFtsDataLoading(true));
+  const nftIdsChunks = chunkArray<string>(nftIds, 100);
+  const chunkPromises = nftIdsChunks.map((nftIdsChunk) =>
+    CachedService.gatewayApi.state.getNonFungibleData(claimNFTAddress, nftIdsChunk)
+  );
+
+  const chunkData = (await Promise.all(chunkPromises)).flat();
+
+  const unstakeClaimNFTsData: UnstakeClaimNFTDATA = {};
+
+  chunkData.forEach((nftData) => {
+    const programmatic_json = nftData.data?.programmatic_json;
+    if (programmatic_json?.kind === "Tuple") {
+      const nftEntry = unstakeClaimNFTsData[nftData.non_fungible_id] || {};
+      programmatic_json.fields.forEach((field) => {
+        if (field.kind === "Decimal" && field.field_name === "claim_amount") {
+          nftEntry.claim_amount = field.value;
+        } else if (field.kind === "U64" && field.field_name === "claim_epoch") {
+          nftEntry.claim_epoch = field.value;
+        }
+      });
+      unstakeClaimNFTsData[nftData.non_fungible_id] = nftEntry;
+    }
+  });
+
+  dispatch(setUnstakeClaimNFTsData(unstakeClaimNFTsData));
+  dispatch(setUnstakeClaimNFtsDataLoading(false));
 };

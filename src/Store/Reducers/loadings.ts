@@ -12,6 +12,7 @@ const initialState: LoadingReducer = {
   nodeStakingRewards: false,
   nodeStakingComponentDataLoading: false,
   validatorDataLoading: false,
+  unstakeClaimNFtsDataLoading: false,
 };
 
 const loadings = createSlice({
@@ -48,6 +49,9 @@ const loadings = createSlice({
     setValidatorDataLoading(state, action: PayloadAction<boolean>) {
       state.validatorDataLoading = action.payload;
     },
+    setUnstakeClaimNFtsDataLoading(state, action: PayloadAction<boolean>) {
+      state.unstakeClaimNFtsDataLoading = action.payload;
+    },
   },
 });
 
@@ -64,4 +68,5 @@ export const {
   setNodeStakingRewardsLoading,
   setNodeStakingComponentDataLoading,
   setValidatorDataLoading,
+  setUnstakeClaimNFtsDataLoading,
 } = loadings.actions;

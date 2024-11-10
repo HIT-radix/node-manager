@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { UnstakeClaimNFTDATA } from "Types/api";
 import { SessionReducer } from "Types/reducers";
 import { TokenData } from "Types/token";
 
@@ -14,6 +15,7 @@ const initialState: SessionReducer = {
     nonFungible: {},
   },
   isOwner: false,
+  useUnstakeClaimNFTs: {},
 };
 
 const session = createSlice({
@@ -49,6 +51,9 @@ const session = createSlice({
     setIsOwner(state, action: PayloadAction<boolean>) {
       state.isOwner = action.payload;
     },
+    setUnstakeClaimNFTsData(state, action: PayloadAction<UnstakeClaimNFTDATA>) {
+      state.useUnstakeClaimNFTs = action.payload;
+    },
   },
 });
 
@@ -63,4 +68,5 @@ export const {
   setRewardsModalData,
   setUserBalances,
   setIsOwner,
+  setUnstakeClaimNFTsData,
 } = session.actions;

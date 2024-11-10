@@ -93,3 +93,11 @@ export type UnlockingRewards = {
   epoch_unlocked: number;
   stake_unit_amount: string;
 }[];
+
+export type UnstakeClaimNFTDATA = Record<
+  string,
+  {
+    claim_amount: string;
+    claim_epoch: string;
+  }
+>;
