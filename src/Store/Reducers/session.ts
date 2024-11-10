@@ -9,6 +9,11 @@ const initialState: SessionReducer = {
   fomoBalance: "0",
   fomoTokenData: undefined,
   rewardsModalData: undefined,
+  userBalances: {
+    fungible: {},
+    nonFungible: {},
+  },
+  isOwner: false,
 };
 
 const session = createSlice({
@@ -38,6 +43,12 @@ const session = createSlice({
     setRewardsModalData(state, action: PayloadAction<SessionReducer["rewardsModalData"]>) {
       state.rewardsModalData = action.payload;
     },
+    setUserBalances(state, action: PayloadAction<SessionReducer["userBalances"]>) {
+      state.userBalances = action.payload;
+    },
+    setIsOwner(state, action: PayloadAction<boolean>) {
+      state.isOwner = action.payload;
+    },
   },
 });
 
@@ -50,4 +61,6 @@ export const {
   setFomoBalance,
   updateHitFomoData,
   setRewardsModalData,
+  setUserBalances,
+  setIsOwner,
 } = session.actions;

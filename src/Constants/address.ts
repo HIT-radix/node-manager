@@ -90,3 +90,6 @@ export const NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS =
 
 export const NODE_UNSTAKING_XRD_VAULT_ADDRESS =
   "internal_vault_rdx1tzukc8dxghnlq8gw686s0vc86ss88978lde48ef0ars2c2lmh387pt";
+
+export const RADIX_NODE_OWNER_BADGE_NFT_ADDRESS =
+  "resource_rdx1nfxxxxxxxxxxvdrwnrxxxxxxxxx004365253834xxxxxxxxxvdrwnr";

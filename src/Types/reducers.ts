@@ -9,6 +9,10 @@ export type AppReducer = {
   fomoPrice: number;
 };
 
+export type FungibleBalances = Record<string, { tokenAddress: string; amount: string }>;
+
+export type NonFungibleBalances = Record<string, { collectionAddress: string; ids: string[] }>;
+
 export enum Percentage {
   _0 = 0,
   _10 = 0.1,
@@ -78,6 +82,11 @@ export type SessionReducer = {
     tokenSymbol: StakingTokens;
     tokenAddress: string;
   };
+  userBalances: {
+    fungible: FungibleBalances;
+    nonFungible: NonFungibleBalances;
+  };
+  isOwner: boolean;
 };
 
 export type LoadingReducer = {

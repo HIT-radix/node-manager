@@ -1,21 +1,18 @@
 import axios, { AxiosResponse } from "axios";
 
 import { Ociswap_baseurl, networkRPC } from "Constants/endpoints";
-import { store } from "Store";
+import { dispatch, store } from "Store";
 import { setHitFomoPrices } from "Store/Reducers/app";
-import { setFomoBalance, setHitBalance, updateHitFomoData } from "Store/Reducers/session";
+import { setUserBalances, updateHitFomoData } from "Store/Reducers/session";
 import {
-  setIsOwner,
   setLockedHITRewards,
   setLockedNodeStakingFomos,
   setLockedNodeStakingHits,
   setNodeStakeNFTid,
-  // setOldLockedNodeStakingFomos,
-  setStHitBalance,
   setStHitTotalSupply,
   setStakedHIT,
 } from "Store/Reducers/staking";
-import { StakingTokens, Tabs } from "Types/reducers";
+import { FungibleBalances, NonFungibleBalances, StakingTokens, Tabs } from "Types/reducers";
 import { TokenData } from "Types/token";
 import { BN, extractBalances } from "./format";
 import { EntityDetails, UnlockingRewards } from "Types/api";
@@ -29,8 +26,6 @@ import {
   HIT_RESOURCE_ADDRESS,
   FOMO_RESOURCE_ADDRESS,
   NODE_STAKING_COMPONENT_ADDRESS,
-  // OLD_FOMO_RESOURCE_ADDRESS,
-  // OLD_NODE_STAKING_FOMO_KEY_VALUE_STORE_ADDRESS,
 } from "Constants/address";
 import {
   setRugProofComponentDataLoading,
@@ -41,49 +36,104 @@ import {
   setTokenDataLoading,
   setNodeStakingComponentDataLoading,
   setValidatorDataLoading,
+  setBalanceLoading,
 } from "Store/Reducers/loadings";
 import CachedService from "Classes/cachedService";
 import { setValidatorInfo } from "Store/Reducers/nodeManager";
-import { EntityMetadataCollection } from "@radixdlt/babylon-gateway-api-sdk";
+import {
+  EntityMetadataCollection,
+  FungibleResourcesCollectionItem,
+  NonFungibleResourcesCollectionItem,
+  StateEntityFungiblesPageResponse,
+  StateEntityNonFungiblesPageResponse,
+} from "@radixdlt/babylon-gateway-api-sdk";
 import Decimal from "decimal.js";
 
 export const fetchBalances = async (walletAddress: string) => {
-  let HITbalance = "0";
-  let stHITbalance = "0";
-  let fomobalance = "0";
-  let isOwner = false;
+  const fungibleBalance: FungibleBalances = {};
+  const nonFungibleBalance: NonFungibleBalances = {};
+
   if (walletAddress) {
     try {
-      const response = await axios.post<any, AxiosResponse<EntityDetails>>(
-        `${networkRPC}/state/entity/details`,
-        {
-          addresses: [walletAddress],
-        }
-      );
+      dispatch(setBalanceLoading(true));
+      const allFungibleItems = await fetchAllFungibles(walletAddress);
+      const allNonFungibleItems = await fetchAllNonFungibles(walletAddress);
 
-      if (response.status === 200) {
-        const { balances, isOwner: isOwnerFound } = extractBalances(
-          response.data.items[0].fungible_resources.items,
-          [
-            { symbol: StakingTokens.HIT, address: HIT_RESOURCE_ADDRESS },
-            { symbol: StakingTokens.StHIT, address: STHIT_RESOURCE_ADDRESS },
-            { symbol: StakingTokens.FOMO, address: FOMO_RESOURCE_ADDRESS },
-          ],
-          true
-        );
-        HITbalance = balances[StakingTokens.HIT];
-        stHITbalance = balances[StakingTokens.StHIT];
-        fomobalance = balances[StakingTokens.FOMO];
-        isOwner = isOwnerFound;
-      }
+      allFungibleItems.forEach((fungItem) => {
+        if (fungItem.aggregation_level === "Global") {
+          fungibleBalance[fungItem.resource_address] = {
+            tokenAddress: fungItem.resource_address,
+            amount: fungItem.amount,
+          };
+        }
+      });
+
+      allNonFungibleItems.forEach((nonFungItem) => {
+        if (nonFungItem.aggregation_level === "Vault") {
+          const ids = nonFungItem.vaults.items[0].items;
+          if (ids) {
+            nonFungibleBalance[nonFungItem.resource_address] = {
+              collectionAddress: nonFungItem.resource_address,
+              ids,
+            };
+          }
+        }
+      });
     } catch (error) {
       console.log("error in fetchBalances", error);
     }
   }
-  store.dispatch(setHitBalance(HITbalance));
-  store.dispatch(setStHitBalance(stHITbalance));
-  store.dispatch(setFomoBalance(fomobalance));
-  store.dispatch(setIsOwner(isOwner));
+  dispatch(
+    setUserBalances({
+      fungible: fungibleBalance,
+      nonFungible: nonFungibleBalance,
+    })
+  );
+  dispatch(setBalanceLoading(false));
+};
+
+const fetchAllFungibles = async (walletAddress: string) => {
+  let allFungibleItems: FungibleResourcesCollectionItem[] = [];
+  let nextCursor = undefined;
+  let response: StateEntityFungiblesPageResponse;
+  let state_version: number | undefined = undefined;
+  do {
+    response = await CachedService.gatewayApi.state.innerClient.entityFungiblesPage({
+      stateEntityFungiblesPageRequest: {
+        address: walletAddress,
+        cursor: nextCursor,
+        aggregation_level: "Global",
+        at_ledger_state: state_version ? { state_version } : undefined,
+      },
+    });
+
+    allFungibleItems = allFungibleItems.concat(response.items);
+    nextCursor = response.next_cursor;
+    state_version = response.ledger_state.state_version;
+  } while (nextCursor);
+  return allFungibleItems;
+};
+
+const fetchAllNonFungibles = async (walletAddress: string) => {
+  let allNonFungibleItems: NonFungibleResourcesCollectionItem[] = [];
+  let nextCursor = undefined;
+  let response: StateEntityNonFungiblesPageResponse;
+  let state_version: number | undefined = undefined;
+  do {
+    response = await CachedService.gatewayApi.state.innerClient.entityNonFungiblesPage({
+      stateEntityNonFungiblesPageRequest: {
+        address: walletAddress,
+        cursor: nextCursor,
+        aggregation_level: "Vault",
+        opt_ins: { non_fungible_include_nfids: true },
+        at_ledger_state: state_version ? { state_version } : undefined,
+      },
+    });
+    allNonFungibleItems = allNonFungibleItems.concat(response.items);
+    nextCursor = response.next_cursor;
+    state_version = response.ledger_state.state_version;
+  } while (nextCursor);
+  return allNonFungibleItems;
 };
 
 export const getSelectedBalance = () => {
