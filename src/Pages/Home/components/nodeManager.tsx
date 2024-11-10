@@ -1,10 +1,11 @@
 import UnlockingLSUsTable from "./unlockingTable";
 import InfoTile from "Components/infoTile";
 import { formatTokenAmount } from "Utils/format";
-import { finishNodeLSUnlockProcess, unlockNodeEarnedLSUs } from "Utils/txSenders";
+import { unlockNodeEarnedLSUs } from "Utils/txSenders";
 import { StakingTokens } from "Types/reducers";
 import GeneralOwnerInterface from "Components/generalOwnerInterface";
 import { useSelector } from "Store";
+import ClaimUnlockedBtn from "./claimUnlockedBtn";
 
 const NodeManager = () => {
   const {
@@ -17,6 +18,7 @@ const NodeManager = () => {
     unlockedLSUs,
   } = useSelector((state) => state.nodeManager);
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
+  const isOwner = useSelector((state) => state.session.isOwner);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10">
@@ -57,6 +59,7 @@ const NodeManager = () => {
         }}
         btnText="Unlock Earned LSUs"
         tokenSymbol={StakingTokens.LSU}
+        isOwner={isOwner}
       />
       <p className="mb-5 text-4xl text-secondary font-bold border-y border-secondary">STEP 2</p>
       <div className="min-w-[300px] mb-5">
@@ -78,18 +81,7 @@ const NodeManager = () => {
           tooltip={unlockedLSUs}
         />
       </div>
-      <div
-        onClick={async () => {
-          if (Number(unlockedLSUs) > 0) {
-            await finishNodeLSUnlockProcess(unlockedLSUs);
-          }
-        }}
-        className={`btn btn-accent px-20 ${
-          Number(unlockedLSUs) > 0 ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-30"
-        }`}
-      >
-        Claim
-      </div>
+      <ClaimUnlockedBtn />
     </div>
   );
 };

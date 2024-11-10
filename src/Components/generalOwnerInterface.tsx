@@ -13,6 +13,7 @@ type Props = {
   onButtonClick: (amount: string) => Promise<void>;
   btnText: string;
   tokenSymbol?: StakingTokens;
+  isOwner?: boolean;
 };
 
 const GeneralOwnerInterface = ({
@@ -22,6 +23,7 @@ const GeneralOwnerInterface = ({
   placeholder,
   btnText,
   tokenSymbol = StakingTokens.HIT,
+  isOwner = false,
 }: Props) => {
   const [amount, setAmount] = useState("");
   const walletAddress = useSelector((state) => state.app.walletAddress);
@@ -43,14 +45,17 @@ const GeneralOwnerInterface = ({
   };
 
   const isDisabled = useMemo(
-    () => txInProgress || isInSufficientBalance || +balance === 0 || Number(amount) === 0,
-    [txInProgress, isInSufficientBalance, balance, amount]
+    () =>
+      txInProgress || isInSufficientBalance || +balance === 0 || Number(amount) === 0 || !isOwner,
+    [txInProgress, isInSufficientBalance, balance, amount, isOwner]
   );
 
   const BtnText = useMemo(
     () =>
       !walletAddress
         ? "Connect Wallet"
+        : isOwner
+        ? "Owner Only"
         : !amount
         ? "Enter an amount"
         : isInSufficientBalance
@@ -58,7 +63,7 @@ const GeneralOwnerInterface = ({
         : txInProgress
         ? "Processing"
         : btnText,
-    [amount, tokenSymbol, isInSufficientBalance, txInProgress, walletAddress, btnText]
+    [amount, tokenSymbol, isInSufficientBalance, txInProgress, walletAddress, btnText, isOwner]
   );
 
   const handleClick = async () => {
