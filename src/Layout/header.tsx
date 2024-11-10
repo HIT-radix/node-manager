@@ -1,6 +1,5 @@
 import ImageAudioPlayer from "Components/audioplayer";
 import { HIT_WEBSITE } from "Constants/misc";
-import NavbarLinks from "Components/navbarLinks";
 
 const Header = () => {
   return (
@@ -11,9 +10,7 @@ const Header = () => {
       <div className="flex gap-12 items-center">
         <LogoWebsite />
       </div>
-      <div className="flex-row items-center gap-8 text-xl hidden md:flex">
-        <NavbarLinks />
-      </div>
+      <div className="flex-row items-center gap-8 text-xl hidden md:flex"></div>
       <div className="flex items-center justify-center gap-9">
         <p
           className="text-accent font-bold text-lg cursor-pointer hidden sm:block"
