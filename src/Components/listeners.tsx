@@ -1,5 +1,5 @@
 import { dispatch, useSelector } from "Store";
-import { setIsOwner } from "Store/Reducers/session";
+import { setIsOwner, setUnstakeClaimNFTsData } from "Store/Reducers/session";
 import { fetchBalances, fetchUnstakeCLaimNFTData, fetchValidatorInfo } from "Utils/fetchers";
 import { useEffect } from "react";
 import { initializeSubscriptions, unsubscribeAll } from "subs";
@@ -42,10 +42,11 @@ const Listeners = () => {
   }, [validatorAddress, successTxCount]);
 
   useEffect(() => {
-    // TODO - epmty this state if wallet disconnects
     if ("claim_nft" in metadata && nonFungibles[metadata.claim_nft]) {
       const nftIds = nonFungibles[metadata.claim_nft].ids;
       fetchUnstakeCLaimNFTData(metadata.claim_nft, nftIds);
+    } else {
+      dispatch(setUnstakeClaimNFTsData({}));
     }
   }, [metadata, nonFungibles]);
 

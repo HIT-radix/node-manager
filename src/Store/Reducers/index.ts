@@ -11,7 +11,7 @@ import nodeManager from "./nodeManager";
 
 const persistConfig = {
   version: 1,
-  key: "hit-staking-ts",
+  key: "node-manager-ts",
   storage,
   whitelist: ["app"],
   migrate: createMigrate({
