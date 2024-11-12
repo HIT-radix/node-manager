@@ -81,7 +81,7 @@ const GeneralOwnerInterface = ({
         type="text"
         placeholder={placeholder}
         onChange={onValueChange}
-        className="input w-full max-w-xs bg-base-200 text-accent focus:outline-none focus:border-accent mt-4"
+        className="input w-full max-w-xs bg-base-100 text-accent focus:outline-none focus:border-accent mt-4"
       />
       <div
         onClick={handleClick}

@@ -1,14 +1,9 @@
-import { useMemo } from "react";
 import { useSelector } from "Store";
+import { UnstakeClaimNFT } from "Types/api";
 import { calculateEstimatedUnlockDate, formatTokenAmount } from "Utils/format";
 
-const UnstakingLSUsTable = () => {
+const UnstakingLSUsTable = ({ pendingUnstakes }: { pendingUnstakes: UnstakeClaimNFT[] }) => {
   const epoch = useSelector((state) => state.nodeManager.epoch);
-  const useUnstakeClaimNFTs = useSelector((state) => state.session.useUnstakeClaimNFTs);
-
-  const filterPendingUnstake = useMemo(() => {
-    return Object.values(useUnstakeClaimNFTs).filter((nft) => +nft.claim_epoch > epoch);
-  }, [epoch, useUnstakeClaimNFTs]);
 
   return (
     <div className="w-[95vw] max-w-[650px] ">
@@ -20,7 +15,7 @@ const UnstakingLSUsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filterPendingUnstake.map((nft, index) => (
+          {pendingUnstakes.map((nft, index) => (
             <tr key={index}>
               <td className="border-2 border-base-100 px-4 py-2 text-center">
                 {formatTokenAmount(+nft.claim_amount)}

@@ -94,6 +94,12 @@ export type UnlockingRewards = {
   stake_unit_amount: string;
 }[];
 
+export type UnstakeClaimNFT = {
+  nftId: string;
+  claim_amount: string;
+  claim_epoch: string;
+};
+
 export type UnstakeClaimNFTDATA = Record<
   string,
   {
@@ -110,4 +116,4 @@ export type ValidatorItem = {
   stakeVaultBalance: string;
   pendingXrdWithdrawBalance: string;
   lockedOwnerStakeUnitVaultBalance: string;
-}
+};

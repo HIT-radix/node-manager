@@ -1,17 +1,15 @@
-import { useMemo } from "react";
 import { useSelector } from "Store";
+import { UnstakeClaimNFT } from "Types/api";
 import { formatTokenAmount } from "Utils/format";
 import { withdrawFromNodeValidator } from "Utils/txSenders";
 
-const WithdrawReadyTable = () => {
-  const epoch = useSelector((state) => state.nodeManager.epoch);
+const WithdrawReadyTable = ({
+  filterReadyToUnstakes,
+}: {
+  filterReadyToUnstakes: UnstakeClaimNFT[];
+}) => {
   const validatorAddress = useSelector((state) => state.nodeManager.validatorAddress);
   const metadata = useSelector((state) => state.nodeManager.metadata);
-  const useUnstakeClaimNFTs = useSelector((state) => state.session.useUnstakeClaimNFTs);
-
-  const filterPendingUnstake = useMemo(() => {
-    return Object.values(useUnstakeClaimNFTs).filter((nft) => +nft.claim_epoch <= epoch);
-  }, [epoch, useUnstakeClaimNFTs]);
 
   const handleWithdraw = async (amount: string, nftId: string) => {
     if ("claim_nft" in metadata && validatorAddress) {
@@ -28,7 +26,7 @@ const WithdrawReadyTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filterPendingUnstake.map((nft, index) => (
+          {filterReadyToUnstakes.map((nft, index) => (
             <tr key={index}>
               <td className="border-2 border-base-100 px-4 py-2 text-center">
                 {formatTokenAmount(+nft.claim_amount)}
