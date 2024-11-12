@@ -1,25 +1,22 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import NodeManager from "./components/nodeManager";
 import NodeMetadata from "./components/nodeMetadata";
-import { fetchValidatorInfo } from "Utils/fetchers";
-import { dispatch } from "Store";
-import { setInputSearch } from "Store/Reducers/session";
+import Listeners from "./components/listeners";
+import NodeSkeletons from "./components/skeletons";
+import { useSelector } from "Store";
 
 const Node = () => {
-  const { id: nodeAddress } = useParams<{ id: string }>();
-
-  useEffect(() => {
-    if (nodeAddress) {
-      dispatch(setInputSearch(nodeAddress));
-      fetchValidatorInfo(nodeAddress);
-    }
-  }, [nodeAddress]);
-
+  const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
   return (
     <div>
-      <NodeMetadata />
-      <NodeManager />
+      <Listeners />
+      {validatorDataLoading ? (
+        <NodeSkeletons />
+      ) : (
+        <>
+          <NodeMetadata />
+          <NodeManager />
+        </>
+      )}
     </div>
   );
 };
