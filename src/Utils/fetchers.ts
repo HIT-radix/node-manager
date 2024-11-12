@@ -6,6 +6,7 @@ import { setHitFomoPrices } from "Store/Reducers/app";
 import {
   setUnstakeClaimNFTsData,
   setUserBalances,
+  setValidatorsList,
   updateHitFomoData,
 } from "Store/Reducers/session";
 import {
@@ -42,6 +43,7 @@ import {
   setValidatorDataLoading,
   setBalanceLoading,
   setUnstakeClaimNFtsDataLoading,
+  setValidatorsListLoading,
 } from "Store/Reducers/loadings";
 import CachedService from "Classes/cachedService";
 import { clearValidatorInfo, setValidatorInfo } from "Store/Reducers/nodeManager";
@@ -546,4 +548,39 @@ export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: 
 
   dispatch(setUnstakeClaimNFTsData(unstakeClaimNFTsData));
   dispatch(setUnstakeClaimNFtsDataLoading(false));
+};
+
+export const fetchValidatorsList = async () => {
+  try {
+    store.dispatch(setValidatorsListLoading(true));
+
+    const res = await CachedService.gatewayApi.state.getAllValidators();
+
+    const validatorsList = res.slice(0, 100).map((validator) => {
+      const address = validator.address;
+      const stakeVaultBalance = validator.stake_vault?.balance || "0";
+      const pendingXrdWithdrawBalance = validator.pending_xrd_withdraw_vault?.balance || "0";
+      const lockedOwnerStakeUnitVaultBalance = validator.locked_owner_stake_unit_vault?.balance || "0";
+
+      const metadata = extractMetadata(validator.metadata)
+      const name = metadata.name
+      const icon = metadata.icon_url || ''
+
+      return {
+        name,
+        icon,
+        address,
+        stakeVaultBalance,
+        pendingXrdWithdrawBalance,
+        lockedOwnerStakeUnitVaultBalance
+      };
+    });
+
+    store.dispatch(setValidatorsList(validatorsList));
+
+  } catch (error) {
+    console.log("error in fetchingValidatorsList", error);
+  } finally {
+    store.dispatch(setValidatorsListLoading(false));
+  }
 };
