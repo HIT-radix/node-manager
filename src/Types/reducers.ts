@@ -1,6 +1,6 @@
 import { WalletDataState } from "@radixdlt/radix-dapp-toolkit";
 import { RewardTokenDistribution, TokenData } from "./token";
-import { UnlockingRewards, UnstakeClaimNFTDATA } from "./api";
+import { UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "./api";
 
 export type AppReducer = {
   walletData: WalletDataState;
@@ -89,6 +89,7 @@ export type SessionReducer = {
   };
   useUnstakeClaimNFTs: UnstakeClaimNFTDATA;
   isOwner: boolean;
+  validatorsList: ValidatorItem[]
 };
 
 export type LoadingReducer = {
@@ -103,4 +104,5 @@ export type LoadingReducer = {
   nodeStakingComponentDataLoading: boolean;
   validatorDataLoading: boolean;
   unstakeClaimNFtsDataLoading: boolean;
+  validatorsListLoading: boolean;
 };

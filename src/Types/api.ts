@@ -102,3 +102,12 @@ export type UnstakeClaimNFTDATA = Record<
     claim_epoch: string;
   }
 >;
+
+export type ValidatorItem = {
+  address: string;
+  icon?: string;
+  name?: string;
+  stakeVaultBalance: string;
+  pendingXrdWithdrawBalance: string;
+  lockedOwnerStakeUnitVaultBalance: string;
+}
