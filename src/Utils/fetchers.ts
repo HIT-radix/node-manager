@@ -562,7 +562,13 @@ export const fetchValidatorsList = async () => {
       const pendingXrdWithdrawBalance = validator.pending_xrd_withdraw_vault?.balance || "0";
       const lockedOwnerStakeUnitVaultBalance = validator.locked_owner_stake_unit_vault?.balance || "0";
 
+      const metadata = extractMetadata(validator.metadata)
+      const name = metadata.name
+      const icon = metadata.icon_url || ''
+
       return {
+        name,
+        icon,
         address,
         stakeVaultBalance,
         pendingXrdWithdrawBalance,
