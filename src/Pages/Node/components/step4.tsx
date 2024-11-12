@@ -32,27 +32,31 @@ const Step4 = () => {
     }
   };
   return (
-    <>
-      <p className="my-5 text-4xl text-secondary font-bold border-y border-secondary">STEP 4</p>
-      <p className="text-accent text-center text-2xl font-bold">Start unstake from this Node</p>
-      <div className="min-w-[300px] my-4">
-        <InfoTile
-          title="Your LSU balance of this node"
-          value={formatTokenAmount(+userLSUBalance)}
-          isLoading={balanceLoading}
-          tooltip={userLSUBalance}
+    <div className={"collapse collapse-arrow text-accent bg-base-200 "}>
+      <input type="checkbox" />
+      <div className="collapse-title ">
+        <p className="text-accent font-medium text-xl mb-2">Step4: Start unstake from this Node</p>
+        <div className="min-w-[300px] mb-5 text-primary">
+          <InfoTile
+            title="Your LSU balance of this node"
+            value={formatTokenAmount(+userLSUBalance)}
+            isLoading={balanceLoading}
+            tooltip={userLSUBalance}
+          />
+        </div>
+      </div>
+      <div className="collapse-content text-primary">
+        <GeneralOwnerInterface
+          heading=""
+          placeholder="Enter LSU amount to unstake"
+          balance={userLSUBalance}
+          onButtonClick={(amount) => handleUnstake(amount)}
+          btnText="Unstake from this node"
+          tokenSymbol={StakingTokens.LSU}
+          isOwner={true}
         />
       </div>
-      <GeneralOwnerInterface
-        heading=""
-        placeholder="Enter LSU amount to unstake"
-        balance={userLSUBalance}
-        onButtonClick={(amount) => handleUnstake(amount)}
-        btnText="Unstake from this node"
-        tokenSymbol={StakingTokens.LSU}
-        isOwner={true}
-      />
-    </>
+    </div>
   );
 };
 
