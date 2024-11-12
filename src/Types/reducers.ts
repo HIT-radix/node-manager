@@ -89,6 +89,7 @@ export type SessionReducer = {
   };
   useUnstakeClaimNFTs: UnstakeClaimNFTDATA;
   isOwner: boolean;
+  inputSearch: string;
 };
 
 export type LoadingReducer = {

@@ -16,6 +16,7 @@ const initialState: SessionReducer = {
   },
   isOwner: false,
   useUnstakeClaimNFTs: {},
+  inputSearch: "",
 };
 
 const session = createSlice({
@@ -54,6 +55,9 @@ const session = createSlice({
     setUnstakeClaimNFTsData(state, action: PayloadAction<UnstakeClaimNFTDATA>) {
       state.useUnstakeClaimNFTs = action.payload;
     },
+    setInputSearch(state, action: PayloadAction<string>) {
+      state.inputSearch = action.payload;
+    },
   },
 });
 
@@ -69,4 +73,5 @@ export const {
   setUserBalances,
   setIsOwner,
   setUnstakeClaimNFTsData,
+  setInputSearch,
 } = session.actions;
