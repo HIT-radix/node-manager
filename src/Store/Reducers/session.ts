@@ -17,6 +17,7 @@ const initialState: SessionReducer = {
   isOwner: false,
   useUnstakeClaimNFTs: {},
   validatorsList: [],
+  inputSearch: "",
 };
 
 const session = createSlice({
@@ -58,6 +59,9 @@ const session = createSlice({
     setValidatorsList(state, action: PayloadAction<Array<ValidatorItem>>) {
       state.validatorsList = action.payload;
     },
+    setInputSearch(state, action: PayloadAction<string>) {
+      state.inputSearch = action.payload;
+    },
   },
 });
 
@@ -73,5 +77,6 @@ export const {
   setUserBalances,
   setIsOwner,
   setUnstakeClaimNFTsData,
-  setValidatorsList
+  setValidatorsList,
+  setInputSearch,
 } = session.actions;

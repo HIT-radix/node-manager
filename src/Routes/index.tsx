@@ -1,10 +1,10 @@
 import { lazy } from "react";
 import { useNavigate, useRoutes, Navigate } from "react-router-dom";
 
-import MainLayout from "Layout/mainlayout";
 import CachedService from "Classes/cachedService";
 
 const Home = lazy(() => import("Pages/Home"));
+const Node = lazy(() => import("Pages/Node"));
 
 export default function Routes() {
   const navigate = useNavigate();
@@ -13,11 +13,11 @@ export default function Routes() {
   return useRoutes([
     {
       path: "/",
-      element: (
-        <MainLayout>
-          <Home />
-        </MainLayout>
-      ),
+      element: <Home />,
+    },
+    {
+      path: "/node/:id",
+      element: <Node />,
     },
     { path: "*", element: <Navigate to={"/"} replace={true} /> },
   ]);
