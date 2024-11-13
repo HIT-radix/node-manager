@@ -19,7 +19,7 @@ import {
 } from "Store/Reducers/staking";
 import { FungibleBalances, NonFungibleBalances, StakingTokens, Tabs } from "Types/reducers";
 import { TokenData } from "Types/token";
-import { BN, chunkArray, extractBalances } from "./format";
+import { BN, chunkArray, extractBalances, formatTokenAmount } from "./format";
 import { EntityDetails, UnlockingRewards, UnstakeClaimNFTDATA } from "Types/api";
 import {
   NODE_STAKING_USER_BADGE_ADDRESS,
@@ -558,9 +558,9 @@ export const fetchValidatorsList = async () => {
 
     const validatorsList = res.slice(0, 100).map((validator) => {
       const address = validator.address;
-      const stakeVaultBalance = validator.stake_vault?.balance || "0";
-      const pendingXrdWithdrawBalance = validator.pending_xrd_withdraw_vault?.balance || "0";
-      const lockedOwnerStakeUnitVaultBalance = validator.locked_owner_stake_unit_vault?.balance || "0";
+      const stakeVaultBalance = formatTokenAmount(parseInt(validator.stake_vault?.balance || "0"));
+      const pendingXrdWithdrawBalance = formatTokenAmount(parseInt(validator.pending_xrd_withdraw_vault?.balance || "0"));
+      const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(parseInt(validator.locked_owner_stake_unit_vault?.balance || "0"));
 
       const metadata = extractMetadata(validator.metadata)
       const name = metadata.name

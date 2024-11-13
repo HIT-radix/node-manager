@@ -1,5 +1,5 @@
 import { useSelector } from "Store";
-import { conciseAddress, formatTokenAmount } from "Utils/format";
+import { conciseAddress } from "Utils/format";
 import hitLogo from "Assets/Images/hit-logo.png";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
@@ -55,21 +55,19 @@ const ValidatorsListMobile = () => {
               <div className="flex flex-col items-center justify-center">
                 <p className="font-semibold text-sm text-secondary/80">Total XRD Staked:</p>
                 <p className="text-accent cursor-pointer hover:underline break-all">
-                  {formatTokenAmount(parseInt(validator.stakeVaultBalance))}
+                  {validator.stakeVaultBalance}
                 </p>
               </div>
               <div className="border-t border-secondary w-1/2 my-3" />
               <div className="flex flex-col items-center justify-center">
                 <p className="font-semibold text-sm text-secondary/80">XRD Leaving:</p>
-                <p className="text-accent break-all">
-                  {formatTokenAmount(parseInt(validator.pendingXrdWithdrawBalance))}
-                </p>
+                <p className="text-accent break-all">{validator.pendingXrdWithdrawBalance}</p>
               </div>
               <div className="border-t border-secondary w-1/2 my-3" />
               <div className="flex flex-col items-center justify-center">
                 <p className="font-semibold text-sm text-secondary/80">Owner Stake:</p>
                 <p className="text-accent break-all">
-                  {formatTokenAmount(parseInt(validator.lockedOwnerStakeUnitVaultBalance))}
+                  {validator.lockedOwnerStakeUnitVaultBalance}
                 </p>
               </div>
             </div>

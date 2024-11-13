@@ -18,8 +18,6 @@ const ValidatorsList = () => {
     fetchValidatorsList();
   }, []);
 
-  console.log(isLessThanMd);
-
   return (
     <div className="m-10">
       {!validatorsListLoading ? (

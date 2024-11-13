@@ -1,5 +1,5 @@
 import { useSelector } from "Store";
-import { conciseAddress, formatTokenAmount } from "Utils/format";
+import { conciseAddress } from "Utils/format";
 import hitLogo from "Assets/Images/hit-logo.png";
 
 const ValidatorsListDesktop = () => {
@@ -42,9 +42,9 @@ const ValidatorsListDesktop = () => {
                     </div>
                   </div>
                 </td>
-                <td>{formatTokenAmount(parseInt(validator.stakeVaultBalance))}</td>
-                <td>{formatTokenAmount(parseInt(validator.pendingXrdWithdrawBalance))}</td>
-                <td>{formatTokenAmount(parseInt(validator.lockedOwnerStakeUnitVaultBalance))}</td>
+                <td>{validator.stakeVaultBalance}</td>
+                <td>{validator.pendingXrdWithdrawBalance}</td>
+                <td>{validator.lockedOwnerStakeUnitVaultBalance}</td>
               </tr>
             ))}
           </tbody>
