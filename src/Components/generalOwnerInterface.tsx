@@ -74,14 +74,14 @@ const GeneralOwnerInterface = ({
   };
 
   return (
-    <div className="w-full mb-12 flex flex-col items-center justify-center">
+    <div className="w-full flex flex-col items-center justify-center">
       <p className="text-accent text-center text-2xl font-bold">{heading}</p>
       <input
         value={amount}
         type="text"
         placeholder={placeholder}
         onChange={onValueChange}
-        className="input w-full max-w-xs bg-base-100 text-accent focus:outline-none focus:border-accent mt-4"
+        className="input w-full border border-secondary max-w-xs bg-base-100 text-accent focus:outline-none focus:border-accent mt-4"
       />
       <div
         onClick={handleClick}

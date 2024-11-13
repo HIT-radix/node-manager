@@ -28,25 +28,29 @@ const Step5 = () => {
   );
   return (
     <div
-      className={"collapse text-accent bg-base-200 border border-accent ".concat(
-        isExpandable ? "collapse-arrow" : "collapse-close"
-      )}
+      className={"collapse text-accent bg-base-200 border border-accent "
+        .concat(isExpandable ? "collapse-arrow " : "collapse-close ")
+        .concat(isNodeOwnerView ? "border-secondary " : "border-accent ")}
     >
       <input type="checkbox" />
       <div className="collapse-title ">
-        <p className="text-accent font-medium text-xl mb-2">
+        <p
+          className={"font-medium text-xl mb-2 ".concat(
+            isNodeOwnerView ? "text-secondary " : "text-accent "
+          )}
+        >
           Step {isNodeOwnerView ? "5" : "2"}: Unstakes in progress
         </p>
-        <div className="min-w-[300px] mb-5 text-primary">
+        <div className="min-w-[300px] text-primary">
           <InfoTile
-            title="Your LSU balance of this node"
+            title="Your LSUs unstakes in progress"
             value={formatTokenAmount(+filterPending.totalPendingUnstakeAmount)}
             isLoading={balanceLoading}
             tooltip={filterPending.totalPendingUnstakeAmount}
           />
         </div>
       </div>
-      <div className="collapse-content text-primary">
+      <div className="collapse-content text-primary flex items-center justify-center">
         <UnstakingLSUsTable pendingUnstakes={filterPending.pendingUnstakes} />
       </div>
     </div>

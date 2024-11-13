@@ -9,16 +9,23 @@ const Step1 = () => {
   const { currentlyEarnedLockedLSUs } = useSelector((state) => state.nodeManager);
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
   const isOwner = useSelector((state) => state.session.isOwner);
+  const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
   return (
     <div
-      className={"collapse text-accent bg-base-200 border border-accent ".concat(
-        isOwner ? "collapse-arrow" : "collapse-close"
-      )}
+      className={"collapse text-accent bg-base-200 border border-accent "
+        .concat(isOwner ? "collapse-arrow " : "collapse-close ")
+        .concat(isNodeOwnerView ? "border-secondary " : "border-accent ")}
     >
       <input type="checkbox" />
       <div className="collapse-title ">
-        <p className="text-accent font-medium text-xl mb-2">Step1: Unlock Earned LSUs</p>
-        <div className="min-w-[300px] mb-5 text-primary">
+        <p
+          className={"font-medium text-xl mb-2 ".concat(
+            isNodeOwnerView ? "text-secondary " : "text-accent "
+          )}
+        >
+          Step 1: Unlock Earned LSUs
+        </p>
+        <div className="min-w-[300px] text-primary">
           <InfoTile
             title="Earned LSUs🔒 (owner only)"
             value={formatTokenAmount(+currentlyEarnedLockedLSUs)}
@@ -27,7 +34,7 @@ const Step1 = () => {
           />
         </div>
       </div>
-      <div className="collapse-content">
+      <div className="collapse-content flex items-center justify-center">
         <GeneralOwnerInterface
           heading=""
           placeholder="Enter LSU amount to unlock"
