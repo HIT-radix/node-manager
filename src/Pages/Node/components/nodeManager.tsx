@@ -13,9 +13,10 @@ const NodeManager = () => {
     (state) => state.nodeManager
   );
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
+  const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   return validatorAddress ? (
-    <div className="flex flex-col items-center justify-center mt-10 gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <div className="grid grid-cols-12 w-[95vw] max-w-[650px] mb-5 gap-3">
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center">
           <InfoTile
@@ -34,9 +35,13 @@ const NodeManager = () => {
           />
         </div>
       </div>
-      <Step1 />
-      <Step2 />
-      <Step3 />
+      {isNodeOwnerView ? (
+        <>
+          <Step1 />
+          <Step2 />
+          <Step3 />
+        </>
+      ) : null}
       <Step4 />
       <Step5 />
       <Step6 />

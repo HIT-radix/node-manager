@@ -7,6 +7,7 @@ const initialState: AppReducer = {
   hitPrice: 0,
   walletAddress: "",
   fomoPrice: 0,
+  isNodeOwnerView: false,
 };
 
 const app = createSlice({
@@ -25,6 +26,9 @@ const app = createSlice({
     setHitPrice(state, action: PayloadAction<number>) {
       state.hitPrice = action.payload;
     },
+    setIsNodeOwnerView(state, action: PayloadAction<boolean>) {
+      state.isNodeOwnerView = action.payload;
+    },
     setHitFomoPrices(state, action: PayloadAction<{ hit?: number; fomo?: number }>) {
       if (action.payload.hit) {
         state.hitPrice = action.payload.hit;
@@ -38,4 +42,4 @@ const app = createSlice({
 
 export default app.reducer;
 
-export const { setWalletData, setHitPrice, setHitFomoPrices } = app.actions;
+export const { setWalletData, setHitPrice, setHitFomoPrices, setIsNodeOwnerView } = app.actions;

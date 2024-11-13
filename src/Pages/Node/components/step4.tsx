@@ -12,6 +12,7 @@ const Step4 = () => {
   );
   const fungiblesBalances = useSelector((state) => state.session.userBalances.fungible);
   const balanceLoading = useSelector((state) => state.loadings.balanceLoading);
+  const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   const userLSUBalance = useMemo(() => {
     let balance = "0";
@@ -40,7 +41,9 @@ const Step4 = () => {
     >
       <input type="checkbox" />
       <div className="collapse-title ">
-        <p className="text-accent font-medium text-xl mb-2">Step4: Start unstake from this Node</p>
+        <p className="text-accent font-medium text-xl mb-2">
+          Step {isNodeOwnerView ? "4" : "1"}: Start unstake from this Node
+        </p>
         <div className="min-w-[300px] mb-5 text-primary">
           <InfoTile
             title="Your LSU balance of this node"

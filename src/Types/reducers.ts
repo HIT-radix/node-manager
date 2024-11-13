@@ -7,6 +7,7 @@ export type AppReducer = {
   hitPrice: number;
   walletAddress: string;
   fomoPrice: number;
+  isNodeOwnerView: boolean;
 };
 
 export type FungibleBalances = Record<string, { tokenAddress: string; amount: string }>;
@@ -89,8 +90,9 @@ export type SessionReducer = {
   };
   useUnstakeClaimNFTs: UnstakeClaimNFTDATA;
   isOwner: boolean;
-  validatorsList: ValidatorItem[],
+  validatorsList: ValidatorItem[];
   inputSearch: string;
+  validatorInfoFound: boolean;
 };
 
 export type LoadingReducer = {

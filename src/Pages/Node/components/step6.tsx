@@ -9,6 +9,7 @@ const Step6 = () => {
   const epoch = useSelector((state) => state.nodeManager.epoch);
   const useUnstakeClaimNFTs = useSelector((state) => state.session.useUnstakeClaimNFTs);
   const balanceLoading = useSelector((state) => state.loadings.balanceLoading);
+  const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   const readyToStake = useMemo(() => {
     let readyToWithdrawAmount = new Decimal("0");
@@ -34,7 +35,9 @@ const Step6 = () => {
       >
         <input type="checkbox" />
         <div className="collapse-title ">
-          <p className="text-accent font-medium text-xl mb-2">Step 6: Ready to Withdraw</p>
+          <p className="text-accent font-medium text-xl mb-2">
+            Step {isNodeOwnerView ? "6" : "3"}: Ready to Withdraw
+          </p>
           <div className="min-w-[300px] mb-5 text-primary">
             <InfoTile
               title="Your LSU balance of this node"
