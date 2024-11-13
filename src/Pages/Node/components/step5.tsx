@@ -47,6 +47,7 @@ const Step5 = () => {
             value={formatTokenAmount(+filterPending.totalPendingUnstakeAmount)}
             isLoading={balanceLoading}
             tooltip={filterPending.totalPendingUnstakeAmount}
+            isGreenish={isNodeOwnerView}
           />
         </div>
       </div>

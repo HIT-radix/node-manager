@@ -48,6 +48,7 @@ const Step6 = () => {
               value={formatTokenAmount(+readyToStake.readyToWithdrawAmount)}
               isLoading={balanceLoading}
               tooltip={readyToStake.readyToWithdrawAmount}
+              isGreenish={isNodeOwnerView}
             />
           </div>
         </div>

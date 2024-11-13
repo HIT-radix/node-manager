@@ -31,6 +31,7 @@ const Step1 = () => {
             value={formatTokenAmount(+currentlyEarnedLockedLSUs)}
             isLoading={validatorDataLoading}
             tooltip={currentlyEarnedLockedLSUs}
+            isGreenish={isNodeOwnerView}
           />
         </div>
       </div>

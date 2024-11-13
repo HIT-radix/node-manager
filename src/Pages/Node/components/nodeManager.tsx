@@ -24,6 +24,7 @@ const NodeManager = () => {
             value={formatTokenAmount(+totalStakedXrds)}
             isLoading={validatorDataLoading}
             tooltip={totalStakedXrds}
+            isGreenish={isNodeOwnerView}
           />
         </div>
         <div className="col-span-12 sm:col-span-6 flex items-center justify-center ">
@@ -32,6 +33,7 @@ const NodeManager = () => {
             value={formatTokenAmount(+totalXrdsLeavingOurNode)}
             isLoading={validatorDataLoading}
             tooltip={totalXrdsLeavingOurNode}
+            isGreenish={isNodeOwnerView}
           />
         </div>
       </div>

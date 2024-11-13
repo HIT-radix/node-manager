@@ -9,14 +9,32 @@ type Props = {
   isLoading: boolean;
   tooltip?: string;
   infoTooltipProps?: InfoTooltipProps;
+  isGreenish?: boolean;
 };
 
-const InfoTile = ({ title, value, isLoading, tooltip, infoTooltipProps }: Props) => {
+const InfoTile = ({
+  title,
+  value,
+  isLoading,
+  tooltip,
+  infoTooltipProps,
+  isGreenish = false,
+}: Props) => {
   return (
-    <div className="bg-accent rounded-lg px-3 py-2 w-full">
+    <div
+      className={"rounded-lg px-3 py-2 w-full ".concat(
+        isGreenish ? "bg-secondary/20 " : "bg-accent "
+      )}
+    >
       {typeof title === "string" ? (
         <div className="flex items-center">
-          <p className="font-semibold text-sm opacity-80 ">{title}</p>
+          <p
+            className={"font-semibold text-sm opacity-80 ".concat(
+              isGreenish ? "text-accent " : "text-primary "
+            )}
+          >
+            {title}
+          </p>
           {infoTooltipProps ? <InfoTooltip {...infoTooltipProps} /> : null}
         </div>
       ) : (
@@ -31,7 +49,12 @@ const InfoTile = ({ title, value, isLoading, tooltip, infoTooltipProps }: Props)
           height={30}
         />
       ) : (
-        <div className="text-3xl mt-2 cursor-pointer" title={tooltip}>
+        <div
+          className={"text-3xl mt-2 cursor-pointer ".concat(
+            isGreenish ? "text-accent " : "text-primary "
+          )}
+          title={tooltip}
+        >
           {value}
         </div>
       )}

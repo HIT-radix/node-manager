@@ -54,6 +54,7 @@ const Step4 = () => {
             value={formatTokenAmount(+userLSUBalance)}
             isLoading={balanceLoading}
             tooltip={userLSUBalance}
+            isGreenish={isNodeOwnerView}
           />
         </div>
       </div>
