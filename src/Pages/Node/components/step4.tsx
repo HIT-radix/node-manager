@@ -31,8 +31,13 @@ const Step4 = () => {
       );
     }
   };
+  const isExpandable = useMemo(() => +userLSUBalance > 0, [userLSUBalance]);
   return (
-    <div className={"collapse collapse-arrow text-accent bg-base-200 "}>
+    <div
+      className={"collapse text-accent bg-base-200 border border-accent ".concat(
+        isExpandable ? "collapse-arrow" : "collapse-close"
+      )}
+    >
       <input type="checkbox" />
       <div className="collapse-title ">
         <p className="text-accent font-medium text-xl mb-2">Step4: Start unstake from this Node</p>

@@ -21,8 +21,16 @@ const Step5 = () => {
     });
     return { pendingUnstakes, totalPendingUnstakeAmount: totalPendingUnstakeAmount.toString() };
   }, [epoch, useUnstakeClaimNFTs]);
+  const isExpandable = useMemo(
+    () => +filterPending.totalPendingUnstakeAmount > 0,
+    [filterPending.totalPendingUnstakeAmount]
+  );
   return (
-    <div className={"collapse collapse-arrow text-accent bg-base-200 "}>
+    <div
+      className={"collapse text-accent bg-base-200 border border-accent ".concat(
+        isExpandable ? "collapse-arrow" : "collapse-close"
+      )}
+    >
       <input type="checkbox" />
       <div className="collapse-title ">
         <p className="text-accent font-medium text-xl mb-2">Step 5: Unstakes in progress</p>
