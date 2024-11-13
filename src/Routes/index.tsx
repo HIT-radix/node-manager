@@ -14,7 +14,11 @@ export default function Routes() {
   return useRoutes([
     {
       path: "/",
-      element: <Home />,
+      element: (
+        <MainLayout>
+          <Home />
+        </MainLayout>
+      ),
     },
     {
       path: "/node/:id",

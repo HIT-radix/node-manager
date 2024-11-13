@@ -19,7 +19,7 @@ const ValidatorsList = () => {
   }, []);
 
   return (
-    <div className="m-10">
+    <div className="mt-10">
       {!validatorsListLoading ? (
         !isLessThanMd ? (
           <ValidatorsListDesktop />
