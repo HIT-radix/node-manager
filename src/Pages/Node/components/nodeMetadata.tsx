@@ -6,6 +6,7 @@ import hitLogo from "Assets/Images/hit-logo.png";
 
 const NodeMetadata = () => {
   const { metadata } = useSelector((state) => state.nodeManager);
+  const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   const [openAccordian, setOpenAccordian] = useState(false);
 
@@ -25,7 +26,11 @@ const NodeMetadata = () => {
     <div className="flex items-center justify-center gap-3">
       {info ? (
         <>
-          <div className="collapse border border-secondary bg-base-200 text-accent mt-6">
+          <div
+            className={"collapse border  bg-base-200 text-accent mt-6 ".concat(
+              isNodeOwnerView ? "border-secondary " : "border-accent"
+            )}
+          >
             <input
               type="radio"
               name="my-accordion-2"
@@ -49,7 +54,13 @@ const NodeMetadata = () => {
                     (e.target as HTMLImageElement).src = hitLogo;
                   }}
                 />
-                <p className="font-bold text-xl md:text-3xl">{info.name}</p>
+                <p
+                  className={"font-bold text-xl md:text-3xl ".concat(
+                    isNodeOwnerView ? "text-secondary" : "text-accent"
+                  )}
+                >
+                  {info.name}
+                </p>
               </div>
             </div>
             <div className="collapse-content flex flex-col items-center justify-center">
