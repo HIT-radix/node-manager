@@ -11,8 +11,8 @@ const Step1 = () => {
   const isOwner = useSelector((state) => state.session.isOwner);
   return (
     <div
-      className={"collapse collapse-arrow text-accent bg-base-200 ".concat(
-        isOwner ? "" : "collapse-close"
+      className={"collapse text-accent bg-base-200 border border-accent ".concat(
+        isOwner ? "collapse-arrow" : "collapse-close"
       )}
     >
       <input type="checkbox" />

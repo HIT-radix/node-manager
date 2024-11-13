@@ -2,13 +2,23 @@ import InfoTile from "Components/infoTile";
 import UnlockingLSUsTable from "./unlockingTable";
 import { formatTokenAmount } from "Utils/format";
 import { useSelector } from "Store";
+import { useMemo } from "react";
 
 const Step2 = () => {
   const { ownerLSUsInUnlockingProcess } = useSelector((state) => state.nodeManager);
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
 
+  const isExpandable = useMemo(
+    () => +ownerLSUsInUnlockingProcess > 0,
+    [ownerLSUsInUnlockingProcess]
+  );
+
   return (
-    <div className={"collapse collapse-arrow text-accent bg-base-200 "}>
+    <div
+      className={"collapse text-accent bg-base-200 border border-accent ".concat(
+        isExpandable ? "collapse-arrow" : "collapse-close"
+      )}
+    >
       <input type="checkbox" />
       <div className="collapse-title ">
         <p className="text-accent font-medium text-xl mb-2">Step2: LSUs in unlocking process</p>
