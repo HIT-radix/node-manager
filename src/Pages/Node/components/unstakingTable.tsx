@@ -6,7 +6,7 @@ const UnstakingLSUsTable = ({ pendingUnstakes }: { pendingUnstakes: UnstakeClaim
   const epoch = useSelector((state) => state.nodeManager.epoch);
 
   return (
-    <div className="w-[95vw] max-w-[650px] ">
+    <div className="w-full max-w-[650px] ">
       <table className="min-w-full bg-white">
         <thead>
           <tr>

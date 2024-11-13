@@ -4,7 +4,7 @@ import { calculateEstimatedUnlockDate, formatTokenAmount } from "Utils/format";
 const UnlockingLSUsTable = () => {
   const { unlockingLSUsBreakdown, epoch } = useSelector((state) => state.nodeManager);
   return (
-    <div className="w-[95vw] max-w-[650px] ">
+    <div className="w-full max-w-[650px] ">
       <table className="min-w-full bg-white">
         <thead>
           <tr>

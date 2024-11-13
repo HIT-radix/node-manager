@@ -12,14 +12,17 @@ const InputSearch = () => {
   };
 
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 px-2">
       <input
         value={inputSearch}
         onChange={(e) => dispatch(setInputSearch(e.target.value))}
-        className="border border-white text-accent w-[90vw] max-w-[400px] p-2 rounded-lg"
+        className="border border-white text-accent max-w-[400px] p-2 rounded-lg w-full"
         placeholder="search validator address"
       />
-      <div className="btn btn-accent text-base-100" onClick={handleSearchClick}>
+      <div
+        className="btn btn-accent text-base-100 w-full max-w-[400px] sm:w-auto"
+        onClick={handleSearchClick}
+      >
         Search
       </div>
     </div>

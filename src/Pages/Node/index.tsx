@@ -9,7 +9,7 @@ const Node = () => {
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
   const validatorInfoFound = useSelector((state) => state.session.validatorInfoFound);
   return (
-    <div>
+    <>
       <Listeners />
       {validatorDataLoading ? (
         <NodeSkeletons />
@@ -24,7 +24,7 @@ const Node = () => {
           <p className="text-accent font-semibold text-lg">No validator found :(</p>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
