@@ -6,6 +6,7 @@ import { setHitFomoPrices } from "Store/Reducers/app";
 import {
   setUnstakeClaimNFTsData,
   setUserBalances,
+  setValidatorInfoFound,
   setValidatorsList,
   updateHitFomoData,
 } from "Store/Reducers/session";
@@ -510,11 +511,14 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
           validatorAddress,
         })
       );
+      dispatch(setValidatorInfoFound(true));
     } else {
+      dispatch(setValidatorInfoFound(false));
       dispatch(clearValidatorInfo());
     }
   } catch (error) {
     console.log("error in fetchValidatorInfo", error);
+    dispatch(setValidatorInfoFound(false));
     dispatch(clearValidatorInfo());
   }
   store.dispatch(setValidatorDataLoading(false));
@@ -559,12 +563,16 @@ export const fetchValidatorsList = async () => {
     const validatorsList = res.slice(0, 100).map((validator) => {
       const address = validator.address;
       const stakeVaultBalance = formatTokenAmount(parseInt(validator.stake_vault?.balance || "0"));
-      const pendingXrdWithdrawBalance = formatTokenAmount(parseInt(validator.pending_xrd_withdraw_vault?.balance || "0"));
-      const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(parseInt(validator.locked_owner_stake_unit_vault?.balance || "0"));
+      const pendingXrdWithdrawBalance = formatTokenAmount(
+        parseInt(validator.pending_xrd_withdraw_vault?.balance || "0")
+      );
+      const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(
+        parseInt(validator.locked_owner_stake_unit_vault?.balance || "0")
+      );
 
-      const metadata = extractMetadata(validator.metadata)
-      const name = metadata.name
-      const icon = metadata.icon_url || ''
+      const metadata = extractMetadata(validator.metadata);
+      const name = metadata.name;
+      const icon = metadata.icon_url || "";
 
       return {
         name,
@@ -572,12 +580,11 @@ export const fetchValidatorsList = async () => {
         address,
         stakeVaultBalance,
         pendingXrdWithdrawBalance,
-        lockedOwnerStakeUnitVaultBalance
+        lockedOwnerStakeUnitVaultBalance,
       };
     });
 
     store.dispatch(setValidatorsList(validatorsList));
-
   } catch (error) {
     console.log("error in fetchingValidatorsList", error);
   } finally {
