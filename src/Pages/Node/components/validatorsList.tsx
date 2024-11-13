@@ -8,9 +8,6 @@ const ValidatorsList = () => {
   const { validatorsList } = useSelector((state) => state.session);
   const validatorsListLoading = useSelector((state) => state.loadings.validatorsListLoading);
 
-  console.log(validatorsList);
-  console.log(validatorsListLoading);
-
   useEffect(() => {
     fetchValidatorsList();
   }, []);
