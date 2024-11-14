@@ -55,19 +55,18 @@ export const ValidatorsListMobile = () => {
             </div>
           </div>
           <div className="collapse-content flex flex-col items-center justify-center">
-            <div className="border-t border-secondary w-1/2 my-3" />
             <div className="flex flex-col items-center justify-center">
               <p className="font-semibold text-sm text-secondary/80">Total XRD Staked:</p>
               <p className="text-accent cursor-pointer hover:underline break-all">
                 {validator.stakeVaultBalance}
               </p>
             </div>
-            <div className="border-t border-secondary w-1/2 my-3" />
+            <div className="border-t border-secondary w-3/4 my-3" />
             <div className="flex flex-col items-center justify-center">
               <p className="font-semibold text-sm text-secondary/80">XRD Leaving:</p>
               <p className="text-accent break-all">{validator.pendingXrdWithdrawBalance}</p>
             </div>
-            <div className="border-t border-secondary w-1/2 my-3" />
+            <div className="border-t border-secondary w-3/4 my-3" />
             <div className="flex flex-col items-center justify-center">
               <p className="font-semibold text-sm text-secondary/80">Owner Stake:</p>
               <p className="text-accent break-all">{validator.lockedOwnerStakeUnitVaultBalance}</p>
