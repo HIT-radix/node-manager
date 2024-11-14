@@ -2,8 +2,12 @@ import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
 import CachedService from "Classes/cachedService";
 import hitLogo from "Assets/Images/hit-logo.png";
+import { Copy } from "lucide-react";
+import useCopyToClipboard from "hooks/useCopyToClipboard";
 
 export const ValidatorsListMobile = () => {
+  const { copyToClipboard } = useCopyToClipboard();
+
   const { validatorsList } = useSelector((state) => state.session);
 
   const handleClick = (address: string) => {
@@ -31,9 +35,22 @@ export const ValidatorsListMobile = () => {
                   (e.target as HTMLImageElement).src = hitLogo;
                 }}
               />
-              <div className=" ml-2" onClick={() => handleClick(validator.address)}>
-                <p className="font-bold text-xl md:text-3xl">{validator.name}</p>
-                <p className="text-sm opacity-50">{conciseAddress(validator.address, 3, 20)}</p>
+              <div className=" ml-2">
+                <p
+                  className="font-bold text-xl md:text-3xl"
+                  onClick={() => handleClick(validator.address)}
+                >
+                  {validator.name}
+                </p>
+                <div className="flex items-center text-sm opacity-50">
+                  {conciseAddress(validator.address, 3, 20)}
+                  <span
+                    className="ml-2 cursor-pointer"
+                    onClick={() => copyToClipboard(validator.address)}
+                  >
+                    <Copy size={16} />
+                  </span>
+                </div>
               </div>
             </div>
           </div>

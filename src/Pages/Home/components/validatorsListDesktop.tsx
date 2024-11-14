@@ -2,8 +2,12 @@ import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
 import CachedService from "Classes/cachedService";
 import hitLogo from "Assets/Images/hit-logo.png";
+import { Copy } from "lucide-react";
+import useCopyToClipboard from "hooks/useCopyToClipboard";
 
 const ValidatorsListDesktop = () => {
+  const { copyToClipboard } = useCopyToClipboard();
+
   const { validatorsList } = useSelector((state) => state.session);
 
   const handleClick = (address: string) => {
@@ -40,10 +44,21 @@ const ValidatorsListDesktop = () => {
                         />
                       </div>
                     </div>
-                    <div className="cursor-pointer" onClick={() => handleClick(validator.address)}>
-                      <div className="font-bold">{validator.name}</div>
-                      <div className="text-sm opacity-50">
+                    <div>
+                      <div
+                        className="font-bold cursor-pointer"
+                        onClick={() => handleClick(validator.address)}
+                      >
+                        {validator.name}
+                      </div>
+                      <div className="flex items-center text-sm opacity-50">
                         {conciseAddress(validator.address, 3, 20)}
+                        <span
+                          className="ml-2 cursor-pointer"
+                          onClick={() => copyToClipboard(validator.address)}
+                        >
+                          <Copy size={16} />
+                        </span>
                       </div>
                     </div>
                   </div>
