@@ -1,9 +1,14 @@
 import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
+import CachedService from "Classes/cachedService";
 import hitLogo from "Assets/Images/hit-logo.png";
 
 export const ValidatorsListMobile = () => {
   const { validatorsList } = useSelector((state) => state.session);
+
+  const handleClick = (address: string) => {
+    CachedService.navigation(`/node/${address}`);
+  };
 
   return (
     <>
@@ -18,6 +23,7 @@ export const ValidatorsListMobile = () => {
           <div className="collapse-title ">
             <div className="flex items-center gap-1 ml-2">
               <img
+                onClick={() => handleClick(validator.address)}
                 src={validator.icon}
                 alt="logo"
                 className="w-14 h-14 rounded-full"
@@ -25,7 +31,7 @@ export const ValidatorsListMobile = () => {
                   (e.target as HTMLImageElement).src = hitLogo;
                 }}
               />
-              <div className=" ml-2">
+              <div className=" ml-2" onClick={() => handleClick(validator.address)}>
                 <p className="font-bold text-xl md:text-3xl">{validator.name}</p>
                 <p className="text-sm opacity-50">{conciseAddress(validator.address, 3, 20)}</p>
               </div>

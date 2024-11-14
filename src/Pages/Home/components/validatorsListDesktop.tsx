@@ -1,9 +1,14 @@
 import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
+import CachedService from "Classes/cachedService";
 import hitLogo from "Assets/Images/hit-logo.png";
 
 const ValidatorsListDesktop = () => {
   const { validatorsList } = useSelector((state) => state.session);
+
+  const handleClick = (address: string) => {
+    CachedService.navigation(`/node/${address}`);
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -23,8 +28,9 @@ const ValidatorsListDesktop = () => {
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
+                      <div className="mask mask-squircle h-12 w-12 cursor-pointer">
                         <img
+                          onClick={() => handleClick(validator.address)}
                           src={validator.icon}
                           alt={`${validator.name}'s avatar`}
                           className="w-14 h-14 rounded-full"
@@ -34,7 +40,7 @@ const ValidatorsListDesktop = () => {
                         />
                       </div>
                     </div>
-                    <div>
+                    <div className="cursor-pointer" onClick={() => handleClick(validator.address)}>
                       <div className="font-bold">{validator.name}</div>
                       <div className="text-sm opacity-50">
                         {conciseAddress(validator.address, 3, 20)}
