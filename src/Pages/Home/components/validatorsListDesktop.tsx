@@ -46,7 +46,7 @@ const ValidatorsListDesktop = () => {
                     </div>
                     <div>
                       <div
-                        className="font-bold cursor-pointer"
+                        className="font-bold cursor-pointer hover:underline"
                         onClick={() => handleClick(validator.address)}
                       >
                         {validator.name}
