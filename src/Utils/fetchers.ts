@@ -560,7 +560,9 @@ export const fetchValidatorsList = async () => {
 
     const res = await CachedService.gatewayApi.state.getAllValidators();
 
-    const validatorsList = res.slice(0, 100).map((validator) => {
+    const validatorsList = res.slice(0, 100)
+      .sort((a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0"))
+      .map((validator) => {
       const address = validator.address;
       const stakeVaultBalance = formatTokenAmount(parseInt(validator.stake_vault?.balance || "0"));
       const pendingXrdWithdrawBalance = formatTokenAmount(
