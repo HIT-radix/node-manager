@@ -46,7 +46,7 @@ export const ValidatorsListMobile = () => {
               />
               <div className="ml-2">
                 <p
-                  className="font-bold text-xl md:text-3xl"
+                  className="font-bold text-lg md:text-2xl"
                   onClick={() => handleClick(validator.address)}
                 >
                   {validator.name}
