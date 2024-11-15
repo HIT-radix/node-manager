@@ -8,6 +8,12 @@ const Listeners = () => {
   const { id: nodeAddress } = useParams<{ id: string }>();
 
   useEffect(() => {
+    return () => {
+      dispatch(setInputSearch(""));
+    };
+  }, []);
+
+  useEffect(() => {
     if (nodeAddress) {
       dispatch(setInputSearch(nodeAddress));
       fetchValidatorInfo(nodeAddress);
