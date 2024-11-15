@@ -560,31 +560,35 @@ export const fetchValidatorsList = async () => {
 
     const res = await CachedService.gatewayApi.state.getAllValidators();
 
-    const validatorsList = res.slice(0, 100)
-      .sort((a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0"))
+    const validatorsList = res
+      .sort(
+        (a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0")
+      )
       .map((validator) => {
-      const address = validator.address;
-      const stakeVaultBalance = formatTokenAmount(parseInt(validator.stake_vault?.balance || "0"));
-      const pendingXrdWithdrawBalance = formatTokenAmount(
-        parseInt(validator.pending_xrd_withdraw_vault?.balance || "0")
-      );
-      const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(
-        parseInt(validator.locked_owner_stake_unit_vault?.balance || "0")
-      );
+        const address = validator.address;
+        const stakeVaultBalance = formatTokenAmount(
+          parseInt(validator.stake_vault?.balance || "0")
+        );
+        const pendingXrdWithdrawBalance = formatTokenAmount(
+          parseInt(validator.pending_xrd_withdraw_vault?.balance || "0")
+        );
+        const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(
+          parseInt(validator.locked_owner_stake_unit_vault?.balance || "0")
+        );
 
-      const metadata = extractMetadata(validator.metadata);
-      const name = metadata.name;
-      const icon = metadata.icon_url || "";
+        const metadata = extractMetadata(validator.metadata);
+        const name = metadata.name;
+        const icon = metadata.icon_url || "";
 
-      return {
-        name,
-        icon,
-        address,
-        stakeVaultBalance,
-        pendingXrdWithdrawBalance,
-        lockedOwnerStakeUnitVaultBalance,
-      };
-    });
+        return {
+          name,
+          icon,
+          address,
+          stakeVaultBalance,
+          pendingXrdWithdrawBalance,
+          lockedOwnerStakeUnitVaultBalance,
+        };
+      });
 
     store.dispatch(setValidatorsList(validatorsList));
   } catch (error) {
