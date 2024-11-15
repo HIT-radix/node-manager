@@ -564,6 +564,7 @@ export const fetchValidatorsList = async () => {
       .sort(
         (a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0")
       )
+      .slice(0, 100)
       .map((validator) => {
         const address = validator.address;
         const stakeVaultBalance = formatTokenAmount(
