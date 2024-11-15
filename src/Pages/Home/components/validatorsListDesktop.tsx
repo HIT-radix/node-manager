@@ -1,7 +1,6 @@
 import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
 import CachedService from "Classes/cachedService";
-import hitLogo from "Assets/Images/hit-logo.png";
 import { Copy } from "lucide-react";
 import useCopyToClipboard from "hooks/useCopyToClipboard";
 
@@ -39,7 +38,8 @@ const ValidatorsListDesktop = () => {
                           alt={`${validator.name}'s avatar`}
                           className="w-14 h-14 rounded-full"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = hitLogo;
+                            (e.target as HTMLImageElement).src =
+                              "https://dashboard.radixdlt.com/_app/immutable/assets/validator-placeholder.VZYH4bqM.svg";
                           }}
                         />
                       </div>
