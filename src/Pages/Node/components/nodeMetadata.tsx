@@ -2,11 +2,10 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
-import hitLogo from "Assets/Images/hit-logo.png";
 
 const NodeMetadata = () => {
   const metadata = useSelector((state) => state.nodeManager.metadata);
-  const feeAlert = useSelector((state) => state.nodeManager.fees.alert);
+  const fee = useSelector((state) => state.nodeManager.fees);
   const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   const [openAccordian, setOpenAccordian] = useState(false);
@@ -24,7 +23,7 @@ const NodeMetadata = () => {
     };
   }, [metadata]);
   return (
-    <div className={"flex items-center justify-center gap-3 ".concat(feeAlert ? "" : "mt-6")}>
+    <div className={"flex items-center justify-center gap-3 ".concat(fee.alert ? "" : "mt-6")}>
       {info ? (
         <>
           <div
@@ -86,6 +85,11 @@ const NodeMetadata = () => {
                   </div>
                 </>
               )}
+              <div className="border-t border-secondary w-1/2 my-3" />
+              <div className=" flex flex-col items-center justify-center">
+                <p className="font-semibold text-sm text-secondary/80">Fees:</p>
+                <p className="text-accent break-all">{fee.current}</p>
+              </div>
               <div className="border-t border-secondary w-1/2 my-3" />
               <div className=" flex flex-col items-center justify-center">
                 <p className="font-semibold text-sm text-secondary/80">Owner Badge:</p>
