@@ -1,3 +1,4 @@
+import { RADIX_NODE_OWNER_BADGE_NFT_ADDRESS } from "Constants/address";
 import { dispatch, useSelector } from "Store";
 import { setIsOwner, setUnstakeClaimNFTsData } from "Store/Reducers/session";
 import {
@@ -32,7 +33,10 @@ const Listeners = () => {
   useEffect(() => {
     if ("owner_badge" in metadata) {
       const ownerBadge = metadata.owner_badge;
-      if (nonFungibles[ownerBadge] && nonFungibles[ownerBadge].ids.includes(ownerBadge)) {
+      if (
+        nonFungibles[RADIX_NODE_OWNER_BADGE_NFT_ADDRESS] &&
+        nonFungibles[RADIX_NODE_OWNER_BADGE_NFT_ADDRESS].ids.includes(ownerBadge)
+      ) {
         dispatch(setIsOwner(true));
       } else {
         dispatch(setIsOwner(false));

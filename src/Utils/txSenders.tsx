@@ -69,6 +69,7 @@ export const baseTxSender = async ({ amount, txManifest, ToastElement, tokenSymb
     if (rdt) {
       store.dispatch(setTxInProgress(true));
       CachedService.TxProgressToast(<TxProgressToast />);
+      console.log(txManifest);
       const result = await rdt.walletApi.sendTransaction({
         transactionManifest: txManifest,
         version: 1,

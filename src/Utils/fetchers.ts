@@ -558,6 +558,7 @@ export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: 
     const programmatic_json = nftData.data?.programmatic_json;
     if (programmatic_json?.kind === "Tuple") {
       const nftEntry = unstakeClaimNFTsData[nftData.non_fungible_id] || {};
+      nftEntry.nftId = nftData.non_fungible_id;
       programmatic_json.fields.forEach((field) => {
         if (field.kind === "Decimal" && field.field_name === "claim_amount") {
           nftEntry.claim_amount = field.value;

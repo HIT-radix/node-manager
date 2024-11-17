@@ -11,7 +11,7 @@ const Step6 = () => {
   const balanceLoading = useSelector((state) => state.loadings.balanceLoading);
   const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
-  const readyToStake = useMemo(() => {
+  const readyToUnstake = useMemo(() => {
     let readyToWithdrawAmount = new Decimal("0");
     const readyUnstakes = Object.values(useUnstakeClaimNFTs).filter((nft) => {
       const isReadyToUnstake = +nft.claim_epoch <= epoch;
@@ -22,9 +22,10 @@ const Step6 = () => {
     });
     return { readyUnstakes, readyToWithdrawAmount: readyToWithdrawAmount.toString() };
   }, [epoch, useUnstakeClaimNFTs]);
+
   const isExpandable = useMemo(
-    () => +readyToStake.readyToWithdrawAmount > 0,
-    [readyToStake.readyToWithdrawAmount]
+    () => +readyToUnstake.readyToWithdrawAmount > 0,
+    [readyToUnstake.readyToWithdrawAmount]
   );
   return (
     <>
@@ -45,15 +46,15 @@ const Step6 = () => {
           <div className="min-w-[300px] text-primary">
             <InfoTile
               title="Your LSUs ready to withdraw"
-              value={formatTokenAmount(+readyToStake.readyToWithdrawAmount)}
+              value={formatTokenAmount(+readyToUnstake.readyToWithdrawAmount)}
               isLoading={balanceLoading}
-              tooltip={readyToStake.readyToWithdrawAmount}
+              tooltip={readyToUnstake.readyToWithdrawAmount}
               isGreenish={isNodeOwnerView}
             />
           </div>
         </div>
         <div className="collapse-content text-primary flex items-center justify-center">
-          <WithdrawReadyTable filterReadyToUnstakes={readyToStake.readyUnstakes} />
+          <WithdrawReadyTable filterReadyToUnstakes={readyToUnstake.readyUnstakes} />
         </div>
       </div>
     </>
