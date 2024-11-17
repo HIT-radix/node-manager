@@ -5,7 +5,8 @@ import { conciseAddress } from "Utils/format";
 import hitLogo from "Assets/Images/hit-logo.png";
 
 const NodeMetadata = () => {
-  const { metadata } = useSelector((state) => state.nodeManager);
+  const metadata = useSelector((state) => state.nodeManager.metadata);
+  const feeAlert = useSelector((state) => state.nodeManager.fees.alert);
   const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
 
   const [openAccordian, setOpenAccordian] = useState(false);
@@ -23,11 +24,11 @@ const NodeMetadata = () => {
     };
   }, [metadata]);
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className={"flex items-center justify-center gap-3 ".concat(feeAlert ? "" : "mt-6")}>
       {info ? (
         <>
           <div
-            className={"collapse border  bg-base-200 text-accent mt-6 ".concat(
+            className={"collapse border  bg-base-200 text-accent ".concat(
               isNodeOwnerView ? "border-secondary " : "border-accent"
             )}
           >

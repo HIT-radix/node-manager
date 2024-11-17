@@ -18,6 +18,7 @@ const initialState: NodeManagerReducer = {
     NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS: "",
     NODE_UNSTAKING_XRD_VAULT_ADDRESS: "",
   },
+  fees: { alert: "", current: "", aboutToChange: null },
 };
 
 const nodeManager = createSlice({
@@ -36,6 +37,7 @@ const nodeManager = createSlice({
       state.stakeUnitAddress = action.payload.stakeUnitAddress;
       state.vaults = action.payload.vaults;
       state.validatorAddress = action.payload.validatorAddress;
+      state.fees = action.payload.fees;
     },
     clearValidatorInfo(state) {
       state.currentlyEarnedLockedLSUs = "0";
@@ -54,6 +56,7 @@ const nodeManager = createSlice({
         NODE_UNSTAKING_XRD_VAULT_ADDRESS: "",
       };
       state.validatorAddress = "";
+      state.fees = { alert: "", current: "", aboutToChange: null };
     },
   },
 });

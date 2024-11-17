@@ -36,6 +36,7 @@ import {
 } from "./format";
 import {
   EntityDetails,
+  FeeFactor,
   NewFeeFactor,
   UnlockingRewards,
   UnstakeClaimNFTDATA,
@@ -472,6 +473,7 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
     let unlockedLSUs = new Decimal(0);
     let ownerLSUsInUnlockingProcess = new Decimal(0);
     let stakeUnitAddress = "";
+    let fees: FeeFactor = { alert: "", current: "", aboutToChange: null };
 
     if (validatorInfo?.details?.type === "Component" && validatorInfo?.details?.state) {
       const metadata = extractMetadata(res.items[0].metadata);
@@ -509,6 +511,16 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
       if ("stake_unit_resource_address" in validatorState) {
         stakeUnitAddress = validatorState.stake_unit_resource_address as string;
       }
+      if (
+        "validator_fee_factor" in validatorState &&
+        "validator_fee_change_request" in validatorState
+      ) {
+        fees = computeValidatorFeeFactor(
+          validatorState.validator_fee_factor as string,
+          validatorState.validator_fee_change_request as NewFeeFactor,
+          epoch
+        );
+      }
 
       store.dispatch(
         setValidatorInfo({
@@ -528,6 +540,7 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
             NODE_UNSTAKING_XRD_VAULT_ADDRESS,
           },
           validatorAddress,
+          fees,
         })
       );
       dispatch(setValidatorInfoFound(true));

@@ -1,6 +1,6 @@
 import { WalletDataState } from "@radixdlt/radix-dapp-toolkit";
 import { RewardTokenDistribution, TokenData } from "./token";
-import { UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "./api";
+import { FeeFactor, UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "./api";
 
 export type AppReducer = {
   walletData: WalletDataState;
@@ -62,6 +62,7 @@ export type NodeManagerReducer = {
     NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS: string;
     NODE_UNSTAKING_XRD_VAULT_ADDRESS: string;
   };
+  fees: FeeFactor;
 };
 
 export enum StakingTokens {

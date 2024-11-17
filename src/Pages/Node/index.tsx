@@ -4,6 +4,7 @@ import Listeners from "./components/listeners";
 import NodeSkeletons from "./components/skeletons";
 import { useSelector } from "Store";
 import ToggleView from "./components/toggleView";
+import AlertMessage from "./components/alertMessage";
 
 const Node = () => {
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
@@ -15,6 +16,7 @@ const Node = () => {
         <NodeSkeletons />
       ) : validatorInfoFound ? (
         <>
+          <AlertMessage />
           <NodeMetadata />
           <ToggleView />
           <NodeManager />
