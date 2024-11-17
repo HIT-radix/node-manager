@@ -5,6 +5,7 @@ import Routes from "./Routes";
 import InputSearch from "Components/inputSearch";
 import Header from "Layout/header";
 import Footer from "Layout/footer";
+import WarningModal from "Components/warningModal";
 
 function App() {
   const router = useMemo(
@@ -24,6 +25,7 @@ function App() {
       <InputSearch />
       <RouterProvider router={router} />
       <Footer />
+      <WarningModal />
     </>
   );
 }

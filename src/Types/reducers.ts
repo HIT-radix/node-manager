@@ -95,6 +95,7 @@ export type SessionReducer = {
   validatorInfoFound: boolean;
   userValidatorsList: ValidatorItem[];
   isTop100View: boolean;
+  warningModalMessage: string;
 };
 
 export type LoadingReducer = {

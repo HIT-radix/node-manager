@@ -21,6 +21,7 @@ const initialState: SessionReducer = {
   validatorInfoFound: true,
   userValidatorsList: [],
   isTop100View: true,
+  warningModalMessage: "",
 };
 
 const session = createSlice({
@@ -29,6 +30,9 @@ const session = createSlice({
   reducers: {
     incrementSuccessTxCount(state) {
       state.successTxCount = state.successTxCount + 1;
+    },
+    setWarningModalMessage(state, action: PayloadAction<string>) {
+      state.warningModalMessage = action.payload;
     },
     setIsTop100View(state, action: PayloadAction<boolean>) {
       state.isTop100View = action.payload;
@@ -80,6 +84,7 @@ const session = createSlice({
 export default session.reducer;
 
 export const {
+  setWarningModalMessage,
   incrementSuccessTxCount,
   setValidatorInfoFound,
   updateTokenData,

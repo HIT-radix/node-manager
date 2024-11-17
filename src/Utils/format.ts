@@ -183,16 +183,22 @@ export const computeValidatorFeeFactor = (
   let feefactor: FeeFactor = {
     aboutToChange: null,
     current: (+currentFeeFactor * 100).toFixed(2) + "%",
+    alert: "",
   };
   if (NewFeeFactor) {
+    const newFactorPercentage = (+NewFeeFactor.new_fee_factor * 100).toFixed(2) + "%";
     if (NewFeeFactor.epoch_effective <= currentEpoch) {
-      feefactor.current = (+NewFeeFactor.new_fee_factor * 100).toFixed(2) + "%";
+      feefactor.current = newFactorPercentage;
       feefactor.aboutToChange = null;
     } else {
       feefactor.aboutToChange = {
-        new_fee_factor: (+NewFeeFactor.new_fee_factor * 100).toFixed(2) + "%",
+        new_fee_factor: newFactorPercentage,
         epoch_effective: NewFeeFactor.epoch_effective,
       };
+      feefactor.alert = `Fee will be changed to ${newFactorPercentage} on ${calculateEstimatedUnlockDate(
+        NewFeeFactor.epoch_effective,
+        currentEpoch
+      )}`;
     }
   }
 

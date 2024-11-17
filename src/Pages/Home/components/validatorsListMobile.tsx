@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
-import { useSelector } from "Store";
+import { dispatch, useSelector } from "Store";
 import { ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { conciseAddress } from "Utils/format";
 import CachedService from "Classes/cachedService";
 import useCopyToClipboard from "hooks/useCopyToClipboard";
 import { ValidatorItem } from "Types/api";
+import { setWarningModalMessage } from "Store/Reducers/session";
 
 export const ValidatorsListMobile = () => {
   const validatorsList = useSelector((state) =>
@@ -33,8 +34,9 @@ const AccordianCard = ({ validator }: { validator: ValidatorItem }) => {
   return (
     <div
       key={validator.address}
-      className="text-accent bg-base-200 border border-secondary my-3 rounded-[1rem]"
+      className="relative text-accent bg-base-200 border border-secondary my-3 rounded-[1rem]"
     >
+      {validator.fee.alert && <p className="absolute -top-1.5 -left-1.5">⚠️</p>}
       <div className="cursor-pointer flex justify-between p-3" onClick={() => setIsOpen(!isOpen)}>
         <div className="flex items-center gap-1">
           <img
@@ -97,7 +99,18 @@ const AccordianCard = ({ validator }: { validator: ValidatorItem }) => {
           <div className="border-t border-secondary w-3/4 my-3" />
           <div className="flex flex-col items-center justify-center">
             <p className="font-semibold text-sm text-secondary/80">Fee%:</p>
-            <p className="text-accent break-all">{validator.fee.current}</p>
+            <p
+              className="text-accent break-all"
+              onClick={() => {
+                if (validator.fee.alert) {
+                  dispatch(setWarningModalMessage(validator.fee.alert));
+                  (document.getElementById("warning_modal") as HTMLDialogElement).showModal();
+                }
+              }}
+            >
+              {validator.fee.alert ? "⚠️" : ""}
+              {validator.fee.current}
+            </p>
           </div>
         </div>
       </div>

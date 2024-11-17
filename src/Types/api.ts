@@ -114,6 +114,7 @@ export type NewFeeFactor = { new_fee_factor: string; epoch_effective: number };
 export type FeeFactor = {
   aboutToChange: NewFeeFactor | null;
   current: string;
+  alert: string;
 };
 
 export type ValidatorItem = {

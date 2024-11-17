@@ -1,8 +1,9 @@
-import { useSelector } from "Store";
+import { dispatch, useSelector } from "Store";
 import { conciseAddress } from "Utils/format";
 import CachedService from "Classes/cachedService";
 import { Copy } from "lucide-react";
 import useCopyToClipboard from "hooks/useCopyToClipboard";
+import { setWarningModalMessage } from "Store/Reducers/session";
 
 const ValidatorsListDesktop = () => {
   const { copyToClipboard } = useCopyToClipboard();
@@ -34,7 +35,7 @@ const ValidatorsListDesktop = () => {
         <tbody>
           {validatorsList.map((validator) => (
             <tr key={validator.address}>
-              <td>
+              <td className="">
                 <div className="flex items-center gap-3">
                   <div className="avatar">
                     <div className="mask mask-squircle h-12 w-12 cursor-pointer">
@@ -69,10 +70,23 @@ const ValidatorsListDesktop = () => {
                   </div>
                 </div>
               </td>
-              <td>{validator.stakeVaultBalance}</td>
-              <td>{validator.pendingXrdWithdrawBalance}</td>
-              <td>{validator.fee.current}</td>
-              <td>{validator.lockedOwnerStakeUnitVaultBalance}</td>
+              <td className="text-center">{validator.stakeVaultBalance}</td>
+              <td className="text-center">{validator.pendingXrdWithdrawBalance}</td>
+              <td
+                className={"text-center ".concat(
+                  validator.fee.alert ? " cursor-pointer hover:underline" : ""
+                )}
+                onClick={() => {
+                  if (validator.fee.alert) {
+                    dispatch(setWarningModalMessage(validator.fee.alert));
+                    (document.getElementById("warning_modal") as HTMLDialogElement).showModal();
+                  }
+                }}
+              >
+                {validator.fee.alert ? "⚠️" : ""}
+                {validator.fee.current}
+              </td>
+              <td className="text-center">{validator.lockedOwnerStakeUnitVaultBalance}</td>
             </tr>
           ))}
         </tbody>
