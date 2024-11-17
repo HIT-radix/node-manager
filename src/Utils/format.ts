@@ -182,14 +182,17 @@ export const computeValidatorFeeFactor = (
 ): FeeFactor => {
   let feefactor: FeeFactor = {
     aboutToChange: null,
-    current: currentFeeFactor,
+    current: (+currentFeeFactor * 100).toFixed(2) + "%",
   };
   if (NewFeeFactor) {
     if (NewFeeFactor.epoch_effective <= currentEpoch) {
-      feefactor.current = NewFeeFactor.new_fee_factor;
+      feefactor.current = (+NewFeeFactor.new_fee_factor * 100).toFixed(2) + "%";
       feefactor.aboutToChange = null;
     } else {
-      feefactor.aboutToChange = NewFeeFactor;
+      feefactor.aboutToChange = {
+        new_fee_factor: (+NewFeeFactor.new_fee_factor * 100).toFixed(2) + "%",
+        epoch_effective: NewFeeFactor.epoch_effective,
+      };
     }
   }
 

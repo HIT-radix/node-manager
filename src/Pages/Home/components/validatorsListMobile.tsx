@@ -29,6 +29,7 @@ const AccordianCard = ({ validator }: { validator: ValidatorItem }) => {
   const handleClick = (address: string) => {
     CachedService.navigation(`/node/${address}`);
   };
+
   return (
     <div
       key={validator.address}
@@ -92,6 +93,11 @@ const AccordianCard = ({ validator }: { validator: ValidatorItem }) => {
           <div className="flex flex-col items-center justify-center">
             <p className="font-semibold text-sm text-secondary/80">Owner Stake:</p>
             <p className="text-accent break-all">{validator.lockedOwnerStakeUnitVaultBalance}</p>
+          </div>
+          <div className="border-t border-secondary w-3/4 my-3" />
+          <div className="flex flex-col items-center justify-center">
+            <p className="font-semibold text-sm text-secondary/80">Fee%:</p>
+            <p className="text-accent break-all">{validator.fee.current}</p>
           </div>
         </div>
       </div>

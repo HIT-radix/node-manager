@@ -27,6 +27,7 @@ const ValidatorsListDesktop = () => {
             <th>Address</th>
             <th>Total XRD Staked</th>
             <th>XRD Leaving</th>
+            <th>Fee %</th>
             <th>Owner Stake</th>
           </tr>
         </thead>
@@ -70,6 +71,7 @@ const ValidatorsListDesktop = () => {
               </td>
               <td>{validator.stakeVaultBalance}</td>
               <td>{validator.pendingXrdWithdrawBalance}</td>
+              <td>{validator.fee.current}</td>
               <td>{validator.lockedOwnerStakeUnitVaultBalance}</td>
             </tr>
           ))}
