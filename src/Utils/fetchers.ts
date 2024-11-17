@@ -580,6 +580,9 @@ export const fetchValidatorsList = async () => {
         const metadata = extractMetadata(validator.metadata);
         const name = metadata.name;
         const icon = metadata.icon_url || "";
+        const claim_nft = metadata.claim_nft || "";
+        const pool_unit = metadata.pool_unit || "";
+        const owner_badge = metadata.owner_badge || "";
 
         return {
           name,
@@ -588,6 +591,9 @@ export const fetchValidatorsList = async () => {
           stakeVaultBalance,
           pendingXrdWithdrawBalance,
           lockedOwnerStakeUnitVaultBalance,
+          claim_nft,
+          pool_unit,
+          owner_badge,
         };
       });
 

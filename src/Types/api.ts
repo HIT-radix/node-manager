@@ -116,4 +116,7 @@ export type ValidatorItem = {
   stakeVaultBalance: string;
   pendingXrdWithdrawBalance: string;
   lockedOwnerStakeUnitVaultBalance: string;
+  pool_unit: string;
+  owner_badge: string;
+  claim_nft: string;
 };

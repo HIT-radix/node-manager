@@ -60,7 +60,7 @@ const session = createSlice({
     setUnstakeClaimNFTsData(state, action: PayloadAction<UnstakeClaimNFTDATA>) {
       state.useUnstakeClaimNFTs = action.payload;
     },
-    setValidatorsList(state, action: PayloadAction<Array<ValidatorItem>>) {
+    setValidatorsList(state, action: PayloadAction<ValidatorItem[]>) {
       state.validatorsList = action.payload;
     },
     setInputSearch(state, action: PayloadAction<string>) {
