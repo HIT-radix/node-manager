@@ -93,6 +93,7 @@ export type SessionReducer = {
   validatorsList: ValidatorItem[];
   inputSearch: string;
   validatorInfoFound: boolean;
+  userValidatorsList: ValidatorItem[];
 };
 
 export type LoadingReducer = {

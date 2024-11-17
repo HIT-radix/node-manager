@@ -6,6 +6,7 @@ import { setHitFomoPrices } from "Store/Reducers/app";
 import {
   setUnstakeClaimNFTsData,
   setUserBalances,
+  setUserValidatorList,
   setValidatorInfoFound,
   setValidatorsList,
   updateHitFomoData,
@@ -18,10 +19,16 @@ import {
   setStHitTotalSupply,
   setStakedHIT,
 } from "Store/Reducers/staking";
-import { FungibleBalances, NonFungibleBalances, StakingTokens, Tabs } from "Types/reducers";
+import {
+  FungibleBalances,
+  NonFungibleBalances,
+  SessionReducer,
+  StakingTokens,
+  Tabs,
+} from "Types/reducers";
 import { TokenData } from "Types/token";
 import { BN, chunkArray, extractBalances, formatTokenAmount } from "./format";
-import { EntityDetails, UnlockingRewards, UnstakeClaimNFTDATA } from "Types/api";
+import { EntityDetails, UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "Types/api";
 import {
   NODE_STAKING_USER_BADGE_ADDRESS,
   NODE_STAKING_FOMO_KEY_VALUE_STORE_ADDRESS,
@@ -603,4 +610,24 @@ export const fetchValidatorsList = async () => {
   } finally {
     store.dispatch(setValidatorsListLoading(false));
   }
+};
+
+export const filterUserRelatedNodes = (
+  validatorsList: ValidatorItem[],
+  userBalances: SessionReducer["userBalances"]
+) => {
+  const filteredValidators = validatorsList.filter((validator) => {
+    const userHasPoolUnits =
+      userBalances.fungible[validator.pool_unit] &&
+      +userBalances.fungible[validator.pool_unit].amount > 0;
+
+    const userIsOwner =
+      userBalances.nonFungible[validator.owner_badge] &&
+      userBalances.nonFungible[validator.owner_badge].ids.includes(validator.owner_badge);
+    const userHasClaimNfts =
+      userBalances.nonFungible[validator.claim_nft] &&
+      userBalances.nonFungible[validator.claim_nft].ids.length > 0;
+    return userHasPoolUnits || userIsOwner || userHasClaimNfts;
+  });
+  dispatch(setUserValidatorList(filteredValidators));
 };

@@ -1,6 +1,11 @@
 import { dispatch, useSelector } from "Store";
 import { setIsOwner, setUnstakeClaimNFTsData } from "Store/Reducers/session";
-import { fetchBalances, fetchUnstakeCLaimNFTData, fetchValidatorInfo } from "Utils/fetchers";
+import {
+  fetchBalances,
+  fetchUnstakeCLaimNFTData,
+  fetchValidatorInfo,
+  filterUserRelatedNodes,
+} from "Utils/fetchers";
 import { useEffect } from "react";
 import { initializeSubscriptions, unsubscribeAll } from "subs";
 
@@ -10,6 +15,8 @@ const Listeners = () => {
   const nonFungibles = useSelector((state) => state.session.userBalances.nonFungible);
   const metadata = useSelector((state) => state.nodeManager.metadata);
   const validatorAddress = useSelector((state) => state.nodeManager.validatorAddress);
+  const userBalances = useSelector((state) => state.session.userBalances);
+  const validatorsList = useSelector((state) => state.session.validatorsList);
 
   useEffect(() => {
     initializeSubscriptions();
@@ -49,6 +56,12 @@ const Listeners = () => {
       dispatch(setUnstakeClaimNFTsData({}));
     }
   }, [metadata, nonFungibles]);
+
+  useEffect(() => {
+    if (validatorsList.length) {
+      filterUserRelatedNodes(validatorsList, userBalances);
+    }
+  }, [userBalances, validatorsList]);
 
   return <></>;
 };

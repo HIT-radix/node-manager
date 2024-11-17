@@ -19,6 +19,7 @@ const initialState: SessionReducer = {
   validatorsList: [],
   inputSearch: "",
   validatorInfoFound: true,
+  userValidatorsList: [],
 };
 
 const session = createSlice({
@@ -27,6 +28,9 @@ const session = createSlice({
   reducers: {
     incrementSuccessTxCount(state) {
       state.successTxCount = state.successTxCount + 1;
+    },
+    setUserValidatorList(state, action: PayloadAction<ValidatorItem[]>) {
+      state.userValidatorsList = action.payload;
     },
     setValidatorInfoFound(state, action: PayloadAction<boolean>) {
       state.validatorInfoFound = action.payload;
@@ -84,4 +88,5 @@ export const {
   setUnstakeClaimNFTsData,
   setValidatorsList,
   setInputSearch,
+  setUserValidatorList,
 } = session.actions;
