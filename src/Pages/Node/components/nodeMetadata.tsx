@@ -52,7 +52,8 @@ const NodeMetadata = () => {
                   alt="logo"
                   className="w-14 h-14 rounded-full"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = hitLogo;
+                    (e.target as HTMLImageElement).src =
+                      "https://dashboard.radixdlt.com/_app/immutable/assets/validator-placeholder.VZYH4bqM.svg";
                   }}
                 />
                 <p
