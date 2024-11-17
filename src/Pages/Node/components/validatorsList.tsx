@@ -1,16 +1,10 @@
-import { useEffect } from "react";
 import { useSelector } from "Store";
-import { fetchValidatorsList } from "Utils/fetchers";
 import { conciseAddress, formatTokenAmount } from "Utils/format";
 import hitLogo from "Assets/Images/hit-logo.png";
 
 const ValidatorsList = () => {
   const { validatorsList } = useSelector((state) => state.session);
   const validatorsListLoading = useSelector((state) => state.loadings.validatorsListLoading);
-
-  useEffect(() => {
-    fetchValidatorsList();
-  }, []);
 
   return (
     <div className="m-10">

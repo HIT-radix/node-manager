@@ -561,35 +561,45 @@ export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: 
   dispatch(setUnstakeClaimNFtsDataLoading(false));
 };
 
-export const fetchValidatorsList = async () => {
+export const fetchTopValidators = async () => {
   try {
     store.dispatch(setValidatorsListLoading(true));
 
     const res = await CachedService.gatewayApi.state.getAllValidators();
 
     const validatorsList = res
+      .filter((validator) =>
+        validator.state && "is_registered" in validator.state
+          ? validator.state.is_registered
+          : false
+      )
       .sort(
         (a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0")
       )
       .slice(0, 100)
       .map((validator) => {
-        const address = validator.address;
-        const stakeVaultBalance = formatTokenAmount(
-          parseInt(validator.stake_vault?.balance || "0")
-        );
+        const {
+          address,
+          stake_vault,
+          pending_xrd_withdraw_vault,
+          locked_owner_stake_unit_vault,
+          metadata,
+        } = validator;
+        const stakeVaultBalance = formatTokenAmount(parseInt(stake_vault?.balance || "0"));
         const pendingXrdWithdrawBalance = formatTokenAmount(
-          parseInt(validator.pending_xrd_withdraw_vault?.balance || "0")
+          parseInt(pending_xrd_withdraw_vault?.balance || "0")
         );
         const lockedOwnerStakeUnitVaultBalance = formatTokenAmount(
-          parseInt(validator.locked_owner_stake_unit_vault?.balance || "0")
+          parseInt(locked_owner_stake_unit_vault?.balance || "0")
         );
 
-        const metadata = extractMetadata(validator.metadata);
-        const name = metadata.name;
-        const icon = metadata.icon_url || "";
-        const claim_nft = metadata.claim_nft || "";
-        const pool_unit = metadata.pool_unit || "";
-        const owner_badge = metadata.owner_badge || "";
+        const {
+          name,
+          icon_url: icon = "",
+          claim_nft = "",
+          pool_unit = "",
+          owner_badge = "",
+        } = extractMetadata(metadata);
 
         return {
           name,
@@ -606,7 +616,7 @@ export const fetchValidatorsList = async () => {
 
     store.dispatch(setValidatorsList(validatorsList));
   } catch (error) {
-    console.log("error in fetchingValidatorsList", error);
+    console.log("error in fetchingTopValidators", error);
   } finally {
     store.dispatch(setValidatorsListLoading(false));
   }

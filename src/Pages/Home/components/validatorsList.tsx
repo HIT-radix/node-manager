@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "Store";
-import { fetchValidatorsList } from "Utils/fetchers";
+import { fetchTopValidators } from "Utils/fetchers";
 import { useTwBreakpoints } from "hooks/userTwBreakpoints";
 import { TwBreakPoints } from "Types/misc";
 import ValidatorsListDesktop from "./validatorsListDesktop";
@@ -16,7 +16,7 @@ const ValidatorsList = () => {
   const validatorsListLoading = useSelector((state) => state.loadings.validatorsListLoading);
 
   useEffect(() => {
-    fetchValidatorsList();
+    fetchTopValidators();
   }, []);
 
   return (
