@@ -3,7 +3,7 @@ import {
   NODE_STAKING_OWNER_BADGE_ADDRESS,
 } from "Constants/address";
 import { radixDashboardBaseUrl } from "Constants/misc";
-import { ResourceDetails } from "Types/api";
+import { FeeFactor, NewFeeFactor, ResourceDetails } from "Types/api";
 import { parseUnits as parseUnitsEthers } from "ethers";
 import BigNumber from "bignumber.js";
 import numbro from "numbro";
@@ -174,3 +174,24 @@ export const chunkArray = <T>(arr: T[], size: number) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, index) =>
     arr.slice(index * size, index * size + size)
   );
+
+export const computeValidatorFeeFactor = (
+  currentFeeFactor: string,
+  NewFeeFactor: NewFeeFactor | null,
+  currentEpoch: number
+): FeeFactor => {
+  let feefactor: FeeFactor = {
+    aboutToChange: null,
+    current: currentFeeFactor,
+  };
+  if (NewFeeFactor) {
+    if (NewFeeFactor.epoch_effective <= currentEpoch) {
+      feefactor.current = NewFeeFactor.new_fee_factor;
+      feefactor.aboutToChange = null;
+    } else {
+      feefactor.aboutToChange = NewFeeFactor;
+    }
+  }
+
+  return feefactor;
+};

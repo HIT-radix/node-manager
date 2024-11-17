@@ -109,6 +109,13 @@ export type UnstakeClaimNFTDATA = Record<
   }
 >;
 
+export type NewFeeFactor = { new_fee_factor: string; epoch_effective: number };
+
+export type FeeFactor = {
+  aboutToChange: NewFeeFactor | null;
+  current: string;
+};
+
 export type ValidatorItem = {
   address: string;
   icon?: string;
@@ -119,4 +126,5 @@ export type ValidatorItem = {
   pool_unit: string;
   owner_badge: string;
   claim_nft: string;
+  fee: FeeFactor;
 };

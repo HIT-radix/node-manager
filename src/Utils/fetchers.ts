@@ -27,8 +27,20 @@ import {
   Tabs,
 } from "Types/reducers";
 import { TokenData } from "Types/token";
-import { BN, chunkArray, extractBalances, formatTokenAmount } from "./format";
-import { EntityDetails, UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "Types/api";
+import {
+  BN,
+  chunkArray,
+  computeValidatorFeeFactor,
+  extractBalances,
+  formatTokenAmount,
+} from "./format";
+import {
+  EntityDetails,
+  NewFeeFactor,
+  UnlockingRewards,
+  UnstakeClaimNFTDATA,
+  ValidatorItem,
+} from "Types/api";
 import {
   NODE_STAKING_USER_BADGE_ADDRESS,
   NODE_STAKING_FOMO_KEY_VALUE_STORE_ADDRESS,
@@ -565,9 +577,13 @@ export const fetchTopValidators = async () => {
   try {
     store.dispatch(setValidatorsListLoading(true));
 
-    const res = await CachedService.gatewayApi.state.getAllValidators();
+    const res = await CachedService.gatewayApi.state.innerClient.stateValidatorsList({
+      stateValidatorsListRequest: {},
+    });
 
-    const validatorsList = res
+    const epoch = res.ledger_state.epoch;
+
+    const validatorsList = res.validators.items
       .filter((validator) =>
         validator.state && "is_registered" in validator.state
           ? validator.state.is_registered
@@ -611,6 +627,11 @@ export const fetchTopValidators = async () => {
           claim_nft,
           pool_unit,
           owner_badge,
+          fee: computeValidatorFeeFactor(
+            (validator.state as any).validator_fee_factor as string,
+            (validator.state as any).validator_fee_change_request as NewFeeFactor,
+            epoch
+          ),
         };
       });
 
