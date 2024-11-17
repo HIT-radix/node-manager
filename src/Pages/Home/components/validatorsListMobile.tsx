@@ -7,7 +7,13 @@ import useCopyToClipboard from "hooks/useCopyToClipboard";
 import { ValidatorItem } from "Types/api";
 
 export const ValidatorsListMobile = () => {
-  const { validatorsList } = useSelector((state) => state.session);
+  const validatorsList = useSelector((state) =>
+    state.session.isTop100View
+      ? state.session.validatorsList
+      : state.app.walletAddress && state.session.userValidatorsList.length > 0
+      ? state.session.userValidatorsList
+      : state.session.validatorsList
+  );
 
   const renderValidatorsList = useCallback(
     () => validatorsList.map((validator) => <AccordianCard validator={validator} />),

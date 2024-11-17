@@ -5,6 +5,7 @@ import { useTwBreakpoints } from "hooks/userTwBreakpoints";
 import { TwBreakPoints } from "Types/misc";
 import ValidatorsListDesktop from "./validatorsListDesktop";
 import ValidatorsListMobile from "./validatorsListMobile";
+import ToggleView from "./toggleView";
 
 const ValidatorsList = () => {
   const currentBreakpoint = useTwBreakpoints();
@@ -21,11 +22,10 @@ const ValidatorsList = () => {
   return (
     <div className="mt-10">
       {!validatorsListLoading ? (
-        !isLessThanMd ? (
-          <ValidatorsListDesktop />
-        ) : (
-          <ValidatorsListMobile />
-        )
+        <>
+          <ToggleView />
+          {!isLessThanMd ? <ValidatorsListDesktop /> : <ValidatorsListMobile />}
+        </>
       ) : (
         <div className="flex flex-col w-full gap-8">
           {[...Array(10)].map((_, index) => (

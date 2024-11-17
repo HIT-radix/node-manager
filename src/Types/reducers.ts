@@ -94,6 +94,7 @@ export type SessionReducer = {
   inputSearch: string;
   validatorInfoFound: boolean;
   userValidatorsList: ValidatorItem[];
+  isTop100View: boolean;
 };
 
 export type LoadingReducer = {

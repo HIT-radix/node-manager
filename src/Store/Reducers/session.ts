@@ -20,6 +20,7 @@ const initialState: SessionReducer = {
   inputSearch: "",
   validatorInfoFound: true,
   userValidatorsList: [],
+  isTop100View: true,
 };
 
 const session = createSlice({
@@ -28,6 +29,9 @@ const session = createSlice({
   reducers: {
     incrementSuccessTxCount(state) {
       state.successTxCount = state.successTxCount + 1;
+    },
+    setIsTop100View(state, action: PayloadAction<boolean>) {
+      state.isTop100View = action.payload;
     },
     setUserValidatorList(state, action: PayloadAction<ValidatorItem[]>) {
       state.userValidatorsList = action.payload;
@@ -89,4 +93,5 @@ export const {
   setValidatorsList,
   setInputSearch,
   setUserValidatorList,
+  setIsTop100View,
 } = session.actions;
