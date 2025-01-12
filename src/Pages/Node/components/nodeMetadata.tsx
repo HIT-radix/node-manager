@@ -56,7 +56,7 @@ const NodeMetadata = () => {
                   }}
                 />
                 <p
-                  className={"font-bold text-xl md:text-3xl ".concat(
+                  className={"font-bold text-xl md:text-3xl text-center ".concat(
                     isNodeOwnerView ? "text-secondary" : "text-accent"
                   )}
                 >
