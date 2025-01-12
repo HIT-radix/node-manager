@@ -315,7 +315,7 @@ export const stakeInNodeValidator = async (amount: string) => {
   }
 };
 
-export const unlockNodeEarnedLSUs = async (amount: string) => {
+export const unlockNodeEarnedLSUs = async (amount: string, ownerBadgeId: string) => {
   try {
     const {
       app: { walletAddress },
@@ -323,7 +323,7 @@ export const unlockNodeEarnedLSUs = async (amount: string) => {
 
     return await baseTxSender({
       amount,
-      txManifest: getUnlockEarnedLSUManifest(walletAddress, amount),
+      txManifest: getUnlockEarnedLSUManifest(walletAddress, amount, ownerBadgeId),
       ToastElement: UnlockLSUSuccessToast,
       tokenSymbol: StakingTokens.LSU,
     });
@@ -332,7 +332,7 @@ export const unlockNodeEarnedLSUs = async (amount: string) => {
   }
 };
 
-export const finishNodeLSUnlockProcess = async (amount: string) => {
+export const finishNodeLSUnlockProcess = async (amount: string, ownerBadgeId: string) => {
   try {
     const {
       app: { walletAddress },
@@ -340,7 +340,7 @@ export const finishNodeLSUnlockProcess = async (amount: string) => {
 
     return await baseTxSender({
       amount: amount,
-      txManifest: getFinishUnlockLSUProcessManifest(walletAddress),
+      txManifest: getFinishUnlockLSUProcessManifest(walletAddress, ownerBadgeId),
       ToastElement: ClaimLSUSuccessToast,
       tokenSymbol: StakingTokens.LSU,
     });

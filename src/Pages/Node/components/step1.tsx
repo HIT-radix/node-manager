@@ -6,10 +6,13 @@ import { formatTokenAmount } from "Utils/format";
 import { unlockNodeEarnedLSUs } from "Utils/txSenders";
 
 const Step1 = () => {
-  const { currentlyEarnedLockedLSUs } = useSelector((state) => state.nodeManager);
+  const currentlyEarnedLockedLSUs = useSelector(
+    (state) => state.nodeManager.currentlyEarnedLockedLSUs
+  );
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
   const isOwner = useSelector((state) => state.session.isOwner);
   const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
+  const metadata = useSelector((state) => state.nodeManager.metadata);
   return (
     <div
       className={"collapse text-accent bg-base-200 border border-accent "
@@ -41,7 +44,7 @@ const Step1 = () => {
           placeholder="Enter LSU amount to unlock"
           balance={currentlyEarnedLockedLSUs}
           onButtonClick={async (amount) => {
-            await unlockNodeEarnedLSUs(amount);
+            await unlockNodeEarnedLSUs(amount, metadata.owner_badge);
           }}
           btnText="Unlock Earned LSUs"
           tokenSymbol={StakingTokens.LSU}

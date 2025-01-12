@@ -303,14 +303,18 @@ export const getWithdrawNodeStakingRewardAndStakeHITManifest = (
 `;
 };
 
-export const getUnlockEarnedLSUManifest = (walletAddress: string, amount: string) => {
+export const getUnlockEarnedLSUManifest = (
+  walletAddress: string,
+  amount: string,
+  ownerBadgeId: string
+) => {
   return `
     CALL_METHOD 
       Address("${walletAddress}") 
       "create_proof_of_non_fungibles" 
       Address("resource_rdx1nfxxxxxxxxxxvdrwnrxxxxxxxxx004365253834xxxxxxxxxvdrwnr") 
       Array<NonFungibleLocalId>( 
-        NonFungibleLocalId("[83b22a601b755ba5fe0fde3edcde69b84c8cbf60f637320672115e5e8400]") 
+        NonFungibleLocalId("${ownerBadgeId}") 
       )
     ; 
     CALL_METHOD 
@@ -321,14 +325,14 @@ export const getUnlockEarnedLSUManifest = (walletAddress: string, amount: string
   `;
 };
 
-export const getFinishUnlockLSUProcessManifest = (walletAddress: string) => {
+export const getFinishUnlockLSUProcessManifest = (walletAddress: string, ownerBadgeId: string) => {
   return `
     CALL_METHOD 
       Address("${walletAddress}") 
       "create_proof_of_non_fungibles" 
       Address("resource_rdx1nfxxxxxxxxxxvdrwnrxxxxxxxxx004365253834xxxxxxxxxvdrwnr") 
       Array<NonFungibleLocalId>( 
-        NonFungibleLocalId("[83b22a601b755ba5fe0fde3edcde69b84c8cbf60f637320672115e5e8400]") 
+        NonFungibleLocalId("${ownerBadgeId}") 
       )
     ; 
     CALL_METHOD 
