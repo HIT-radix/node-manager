@@ -315,7 +315,11 @@ export const stakeInNodeValidator = async (amount: string) => {
   }
 };
 
-export const unlockNodeEarnedLSUs = async (amount: string, ownerBadgeId: string) => {
+export const unlockNodeEarnedLSUs = async (
+  amount: string,
+  ownerBadgeId: string,
+  validatorAddress: string
+) => {
   try {
     const {
       app: { walletAddress },
@@ -323,7 +327,7 @@ export const unlockNodeEarnedLSUs = async (amount: string, ownerBadgeId: string)
 
     return await baseTxSender({
       amount,
-      txManifest: getUnlockEarnedLSUManifest(walletAddress, amount, ownerBadgeId),
+      txManifest: getUnlockEarnedLSUManifest(walletAddress, amount, ownerBadgeId, validatorAddress),
       ToastElement: UnlockLSUSuccessToast,
       tokenSymbol: StakingTokens.LSU,
     });

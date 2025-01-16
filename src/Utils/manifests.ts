@@ -306,7 +306,8 @@ export const getWithdrawNodeStakingRewardAndStakeHITManifest = (
 export const getUnlockEarnedLSUManifest = (
   walletAddress: string,
   amount: string,
-  ownerBadgeId: string
+  ownerBadgeId: string,
+  validatorAddress: string
 ) => {
   return `
     CALL_METHOD 
@@ -318,7 +319,7 @@ export const getUnlockEarnedLSUManifest = (
       )
     ; 
     CALL_METHOD 
-      Address("${NODE_VALIDATOR_ADDRESS}") 
+      Address("${validatorAddress}") 
       "start_unlock_owner_stake_units" 
       Decimal("${amount}")
     ;

@@ -13,6 +13,7 @@ const Step1 = () => {
   const isOwner = useSelector((state) => state.session.isOwner);
   const isNodeOwnerView = useSelector((state) => state.app.isNodeOwnerView);
   const metadata = useSelector((state) => state.nodeManager.metadata);
+  const validatorAddress = useSelector((state) => state.nodeManager.validatorAddress);
   return (
     <div
       className={"collapse text-accent bg-base-200 border border-accent "
@@ -44,7 +45,7 @@ const Step1 = () => {
           placeholder="Enter LSU amount to unlock"
           balance={currentlyEarnedLockedLSUs}
           onButtonClick={async (amount) => {
-            await unlockNodeEarnedLSUs(amount, metadata.owner_badge);
+            await unlockNodeEarnedLSUs(amount, metadata.owner_badge, validatorAddress);
           }}
           btnText="Unlock Earned LSUs"
           tokenSymbol={StakingTokens.LSU}
