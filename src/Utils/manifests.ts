@@ -326,7 +326,11 @@ export const getUnlockEarnedLSUManifest = (
   `;
 };
 
-export const getFinishUnlockLSUProcessManifest = (walletAddress: string, ownerBadgeId: string) => {
+export const getFinishUnlockLSUProcessManifest = (
+  walletAddress: string,
+  ownerBadgeId: string,
+  validatorAddress: string
+) => {
   return `
     CALL_METHOD 
       Address("${walletAddress}") 
@@ -337,7 +341,7 @@ export const getFinishUnlockLSUProcessManifest = (walletAddress: string, ownerBa
       )
     ; 
     CALL_METHOD 
-      Address("${NODE_VALIDATOR_ADDRESS}") 
+      Address("${validatorAddress}") 
       "finish_unlock_owner_stake_units"
     ;
     CALL_METHOD
