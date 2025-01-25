@@ -25,6 +25,7 @@ const ValidatorsListDesktop = () => {
       <table className="table text-white">
         <thead>
           <tr className="text-white text-center">
+            <th>Position</th>
             <th>Address</th>
             <th>Total XRD Staked</th>
             <th>XRD Leaving</th>
@@ -35,6 +36,7 @@ const ValidatorsListDesktop = () => {
         <tbody>
           {validatorsList.map((validator) => (
             <tr key={validator.address}>
+              <td className="text-center font-semibold">{validator.position}</td>
               <td className="">
                 <div className="flex items-center gap-3">
                   <div className="avatar">
