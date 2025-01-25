@@ -1,4 +1,4 @@
-export interface ResourceDetails {
+interface ResourceDetails {
   amount: string;
   last_updated_at_state_version: number;
   aggregation_level: string;
@@ -83,10 +83,6 @@ interface Item {
   non_fungible_resources: { total_count: number; items: ResourceDetails[] };
   metadata: { total_count: number; items: MetadataItem[] };
   details: Details;
-}
-
-export interface EntityDetails {
-  items: Item[];
 }
 
 export type UnlockingRewards = {

@@ -22,7 +22,7 @@ const GeneralOwnerInterface = ({
   heading,
   placeholder,
   btnText,
-  tokenSymbol = StakingTokens.HIT,
+  tokenSymbol = StakingTokens.LSU,
   isOwner = false,
 }: Props) => {
   const [amount, setAmount] = useState("");

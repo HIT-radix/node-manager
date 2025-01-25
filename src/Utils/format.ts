@@ -1,9 +1,5 @@
-import {
-  RUG_PROOF_STAKING_OWNER_BADGE_ADDRESS,
-  NODE_STAKING_OWNER_BADGE_ADDRESS,
-} from "Constants/address";
 import { radixDashboardBaseUrl } from "Constants/misc";
-import { FeeFactor, NewFeeFactor, ResourceDetails } from "Types/api";
+import { FeeFactor, NewFeeFactor } from "Types/api";
 import { parseUnits as parseUnitsEthers } from "ethers";
 import BigNumber from "bignumber.js";
 import numbro from "numbro";
@@ -74,50 +70,6 @@ export function formatUnits(_num: number, decimals: number) {
 
 export const generateExplorerTxLink = (txId?: string) => {
   return `${radixDashboardBaseUrl}/transaction/${txId}`;
-};
-
-export const extractBalances = (
-  resources: ResourceDetails[],
-  tokens: {
-    symbol: string;
-    address: string;
-  }[],
-  searchForOwner: boolean = false
-) => {
-  const balances: { [symbol: string]: string } = {};
-  let isOwner = false;
-
-  // Initialize all token balances to "0"
-  for (const token of tokens) {
-    balances[token.symbol] = "0";
-  }
-
-  for (const resource of resources) {
-    const token = tokens.find((t) => t.address === resource.resource_address);
-    if (token) {
-      balances[token.symbol] = resource.amount;
-    } else if (
-      searchForOwner &&
-      (resource.resource_address === RUG_PROOF_STAKING_OWNER_BADGE_ADDRESS ||
-        resource.resource_address === NODE_STAKING_OWNER_BADGE_ADDRESS) &&
-      +resource.amount > 0
-    ) {
-      isOwner = true;
-    }
-
-    // Break the loop if all balances are found and check isOwner is true only if searchForOwner is true
-    if (
-      tokens.every((token) => balances[token.symbol] !== "0") &&
-      (searchForOwner ? isOwner === true : true)
-    ) {
-      break;
-    }
-  }
-
-  return {
-    balances,
-    isOwner,
-  };
 };
 
 export const conciseAddress = (address: string, startSlice = 3, endSlice = 3): string => {

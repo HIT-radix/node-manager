@@ -11,21 +11,6 @@ export type FungibleBalances = Record<string, { tokenAddress: string; amount: st
 
 export type NonFungibleBalances = Record<string, { collectionAddress: string; ids: string[] }>;
 
-export enum Percentage {
-  _0 = 0,
-  _10 = 0.1,
-  _25 = 0.25,
-  _50 = 0.5,
-  _75 = 0.75,
-  _100 = 1,
-}
-
-export enum Tabs {
-  stake = "stake",
-  unstake = "unstake",
-  claim = "claim",
-}
-
 export type NodeManagerReducer = {
   validatorAddress: string;
   ownerLSUsInUnlockingProcess: string;
@@ -47,9 +32,6 @@ export type NodeManagerReducer = {
 };
 
 export enum StakingTokens {
-  HIT = "HIT",
-  StHIT = "StHIT",
-  FOMO = "FOMO",
   XRD = "XRD",
   LSU = "LSU",
 }

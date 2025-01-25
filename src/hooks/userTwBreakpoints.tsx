@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 
-export enum TwBreakPoints {
+enum TwBreakPoints {
   xs = "xs",
   sm = "sm",
   md = "md",

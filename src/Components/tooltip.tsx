@@ -10,7 +10,7 @@ type Props = {
   text: string;
 };
 
-export const Tooltip = ({ children, twClasses = "", text }: Props) => {
+const Tooltip = ({ children, twClasses = "", text }: Props) => {
   return (
     <span
       className={`tooltip tooltip-bottom before:bg-[#2c2d30] before:text-accent w-fit before:max-w-[60vw] sm:before:max-w-[20rem] before:z-50 cursor-pointer ${twClasses}`}
