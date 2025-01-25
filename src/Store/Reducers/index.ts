@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
-import { createMigrate, persistReducer } from "redux-persist";
+import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { createAction } from "@reduxjs/toolkit";
 
 import app from "./app";
 import session from "./session";
 import loadings from "./loadings";
-import staking from "./staking";
 import nodeManager from "./nodeManager";
 
 const persistConfig = {
@@ -14,15 +13,6 @@ const persistConfig = {
   key: "node-manager-ts",
   storage,
   whitelist: ["app"],
-  migrate: createMigrate({
-    1: (state: any) => ({
-      ...state,
-      app: {
-        ...state.app,
-        fomoPrice: 0,
-      },
-    }),
-  }),
 };
 
 export const logout = createAction("USER_LOGOUT");
@@ -31,7 +21,6 @@ const reducers = combineReducers({
   app,
   session,
   loadings,
-  staking,
   nodeManager,
 });
 

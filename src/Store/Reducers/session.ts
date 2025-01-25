@@ -1,15 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UnstakeClaimNFTDATA, ValidatorItem } from "Types/api";
 import { SessionReducer } from "Types/reducers";
-import { TokenData } from "Types/token";
 
 const initialState: SessionReducer = {
   successTxCount: 0,
-  tokenData: undefined,
-  hitBalance: "0",
-  fomoBalance: "0",
-  fomoTokenData: undefined,
-  rewardsModalData: undefined,
   userBalances: {
     fungible: {},
     nonFungible: {},
@@ -43,26 +37,6 @@ const session = createSlice({
     setValidatorInfoFound(state, action: PayloadAction<boolean>) {
       state.validatorInfoFound = action.payload;
     },
-    updateTokenData(state, action: PayloadAction<TokenData>) {
-      state.tokenData = action.payload;
-    },
-    setHitBalance(state, action: PayloadAction<string>) {
-      state.hitBalance = action.payload;
-    },
-    setFomoBalance(state, action: PayloadAction<string>) {
-      state.fomoBalance = action.payload;
-    },
-    updateHitFomoData(state, action: PayloadAction<{ hit?: TokenData; fomo?: TokenData }>) {
-      if (action.payload.hit) {
-        state.tokenData = action.payload.hit;
-      }
-      if (action.payload.fomo) {
-        state.fomoTokenData = action.payload.fomo;
-      }
-    },
-    setRewardsModalData(state, action: PayloadAction<SessionReducer["rewardsModalData"]>) {
-      state.rewardsModalData = action.payload;
-    },
     setUserBalances(state, action: PayloadAction<SessionReducer["userBalances"]>) {
       state.userBalances = action.payload;
     },
@@ -87,11 +61,6 @@ export const {
   setWarningModalMessage,
   incrementSuccessTxCount,
   setValidatorInfoFound,
-  updateTokenData,
-  setHitBalance,
-  setFomoBalance,
-  updateHitFomoData,
-  setRewardsModalData,
   setUserBalances,
   setIsOwner,
   setUnstakeClaimNFTsData,

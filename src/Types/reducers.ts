@@ -1,12 +1,9 @@
 import { WalletDataState } from "@radixdlt/radix-dapp-toolkit";
-import { RewardTokenDistribution, TokenData } from "./token";
 import { FeeFactor, UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "./api";
 
 export type AppReducer = {
   walletData: WalletDataState;
-  hitPrice: number;
   walletAddress: string;
-  fomoPrice: number;
   isNodeOwnerView: boolean;
 };
 
@@ -28,22 +25,6 @@ export enum Tabs {
   unstake = "unstake",
   claim = "claim",
 }
-
-export type StakingReducer = {
-  currentTab: Tabs;
-  amount: string;
-  percentage: Percentage;
-  isInSufficientBalance: boolean;
-  stHitBalance: string;
-  stHIT_totalSupply: string;
-  stakedHIT: string;
-  lockedHITRewards: string;
-  isOwner: boolean;
-  NodeStakeNFTid?: number;
-  lockedNodeStakingHits: string;
-  lockedNodeStakingFomos: string;
-  // oldLockedNodeStakingFomos: string;
-};
 
 export type NodeManagerReducer = {
   validatorAddress: string;
@@ -75,16 +56,6 @@ export enum StakingTokens {
 
 export type SessionReducer = {
   successTxCount: number;
-  tokenData?: TokenData;
-  fomoTokenData?: TokenData;
-  hitBalance: string;
-  fomoBalance: string;
-  rewardsModalData?: {
-    amount: string;
-    RewardTokenDistributions: RewardTokenDistribution[];
-    tokenSymbol: StakingTokens;
-    tokenAddress: string;
-  };
   userBalances: {
     fungible: FungibleBalances;
     nonFungible: NonFungibleBalances;
@@ -102,13 +73,6 @@ export type SessionReducer = {
 export type LoadingReducer = {
   balanceLoading: boolean;
   txInProgress: boolean;
-  tokenDataLoading: boolean;
-  poolDataLoading: boolean;
-  rugProofComponentDataLoading: boolean;
-  stHitDataLoading: boolean;
-  findingNodeNFT: boolean;
-  nodeStakingRewards: boolean;
-  nodeStakingComponentDataLoading: boolean;
   validatorDataLoading: boolean;
   unstakeClaimNFtsDataLoading: boolean;
   validatorsListLoading: boolean;

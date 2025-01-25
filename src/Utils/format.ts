@@ -7,7 +7,6 @@ import { FeeFactor, NewFeeFactor, ResourceDetails } from "Types/api";
 import { parseUnits as parseUnitsEthers } from "ethers";
 import BigNumber from "bignumber.js";
 import numbro from "numbro";
-import { RewardTokenDistribution } from "Types/token";
 
 export const BN = BigNumber.clone({
   DECIMAL_PLACES: 18,
@@ -149,10 +148,6 @@ export const toLocaleFormat = (value: string) => {
     decimalPart || containsDot ? formattedIntegerPart + "." + decimalPart : formattedIntegerPart;
   return answer;
 };
-
-export const formatRewardTokenDistribution = (
-  rewardTokenDistributions: RewardTokenDistribution[]
-) => rewardTokenDistributions.map(({ id, amount }) => `${id}u64 => Decimal("${amount}")`).join(",");
 
 export const calculateEstimatedUnlockDate = (epochUnlocked: number, currentEpoch: number) => {
   const minutesPerEpoch = 5;
