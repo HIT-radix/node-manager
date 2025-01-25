@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { dispatch, useSelector } from "Store";
 import { ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { conciseAddress } from "Utils/format";
@@ -16,9 +16,21 @@ export const ValidatorsListMobile = () => {
       : state.session.validatorsList
   );
 
+  const inputSearch = useSelector((state) => state.session.inputSearch);
+
+  const filteredValidatorsList = useMemo(
+    () =>
+      validatorsList.filter(
+        (validator) =>
+          validator.name?.toLowerCase().includes(inputSearch.toLowerCase()) ||
+          validator.address?.includes(inputSearch)
+      ),
+    [validatorsList, inputSearch]
+  );
+
   const renderValidatorsList = useCallback(
-    () => validatorsList.map((validator) => <AccordianCard validator={validator} />),
-    [validatorsList]
+    () => filteredValidatorsList.map((validator) => <AccordianCard validator={validator} />),
+    [filteredValidatorsList]
   );
 
   return <>{renderValidatorsList()}</>;
