@@ -118,6 +118,7 @@ export type FeeFactor = {
 };
 
 export type ValidatorItem = {
+  position: number;
   address: string;
   icon?: string;
   name?: string;

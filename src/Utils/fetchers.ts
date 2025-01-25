@@ -607,7 +607,7 @@ export const fetchTopValidators = async () => {
         (a, b) => parseInt(b.stake_vault?.balance || "0") - parseInt(a.stake_vault?.balance || "0")
       )
       .slice(0, 100)
-      .map((validator) => {
+      .map((validator, index) => {
         const {
           address,
           stake_vault,
@@ -632,6 +632,7 @@ export const fetchTopValidators = async () => {
         } = extractMetadata(metadata);
 
         return {
+          position: index + 1,
           name,
           icon,
           address,
