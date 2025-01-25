@@ -44,6 +44,11 @@ const GeneralOwnerInterface = ({
     }
   };
 
+  const setPercentageAmount = (percentage: number) => {
+    const calculatedAmount = BN(balance).multipliedBy(percentage).dividedBy(100).toFixed();
+    setAmount(calculatedAmount);
+  };
+
   const isDisabled = useMemo(
     () =>
       txInProgress || isInSufficientBalance || +balance === 0 || Number(amount) === 0 || !isOwner,
@@ -76,6 +81,32 @@ const GeneralOwnerInterface = ({
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <p className="text-accent text-center text-2xl font-bold">{heading}</p>
+      <div className="flex items-center gap-2 w-full max-w-xs mt-2">
+        <button
+          onClick={() => setPercentageAmount(10)}
+          className="bg-secondary text-base-100 font-semibold text-sm p-1 rounded-md"
+        >
+          10%
+        </button>
+        <button
+          onClick={() => setPercentageAmount(30)}
+          className="bg-secondary text-base-100 font-semibold text-sm p-1 rounded-md"
+        >
+          30%
+        </button>
+        <button
+          onClick={() => setPercentageAmount(50)}
+          className="bg-secondary text-base-100 font-semibold text-sm p-1 rounded-md"
+        >
+          50%
+        </button>
+        <button
+          onClick={() => setPercentageAmount(100)}
+          className="bg-secondary text-base-100 font-semibold text-sm p-1 rounded-md"
+        >
+          Max
+        </button>
+      </div>
       <input
         value={amount}
         type="text"
