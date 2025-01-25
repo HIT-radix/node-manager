@@ -36,19 +36,24 @@ const AccordianCard = ({ validator }: { validator: ValidatorItem }) => {
       key={validator.address}
       className="relative text-accent bg-base-200 border border-secondary my-3 rounded-[1rem]"
     >
-      {validator.fee.alert && <p className="absolute -top-1.5 -left-1.5">⚠️</p>}
+      {validator.fee.alert && <p className="absolute -top-1.5 -right-1.5">⚠️</p>}
       <div className="cursor-pointer flex justify-between p-3" onClick={() => setIsOpen(!isOpen)}>
         <div className="flex items-center gap-1">
-          <img
-            onClick={() => handleClick(validator.address)}
-            src={validator.icon}
-            alt="logo"
-            className="w-14 h-14 rounded-full"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src =
-                "https://dashboard.radixdlt.com/_app/immutable/assets/validator-placeholder.VZYH4bqM.svg";
-            }}
-          />
+          <div className="relative">
+            <img
+              onClick={() => handleClick(validator.address)}
+              src={validator.icon}
+              alt="logo"
+              className="min-w-14 w-14 h-14 rounded-full"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "https://dashboard.radixdlt.com/_app/immutable/assets/validator-placeholder.VZYH4bqM.svg";
+              }}
+            />
+            <div className="absolute badge badge-primary border border-secondary font-semibold p-1 top-0 left-0 ">
+              {validator.position}
+            </div>
+          </div>
           <div className="ml-2">
             <p
               className="font-bold text-lg md:text-2xl"
