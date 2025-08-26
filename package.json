@@ -22,6 +22,7 @@
     "fs": "^0.0.1-security",
     "lucide-react": "^0.456.0",
     "numbro": "^2.5.0",
+    "numdisplay": "^2.1.0",
     "path": "^0.12.7",
     "postcss": "^8.4.47",
     "react": "^18.3.1",

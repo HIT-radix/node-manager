@@ -7254,6 +7254,14 @@ numbro@^2.5.0:
   dependencies:
     bignumber.js "^8 || ^9"
 
+numdisplay@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/numdisplay/-/numdisplay-2.1.0.tgz#a1f29e3e787de21dd01e7f1c24e71b7cbf6638f1"
+  integrity sha512-VezlxLEghFeFnZqMsZr3JhceQYiwvdbKGsfJqgUgyPTaBmQuTNFAzKUk1oeNEXddylt4XY63xJFLwNI6GuzU2Q==
+  dependencies:
+    clsx "^2.1.0"
+    tailwind-merge "^2.2.1"
+
 nwsapi@^2.2.0:
   version "2.2.13"
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.13.tgz#e56b4e98960e7a040e5474536587e599c4ff4655"
@@ -9552,6 +9560,11 @@ symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
+
+tailwind-merge@^2.2.1:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-2.6.0.tgz#ac5fb7e227910c038d458f396b7400d93a3142d5"
+  integrity sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==
 
 tailwindcss@^3.0.2, tailwindcss@^3.4.14:
   version "3.4.14"
