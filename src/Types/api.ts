@@ -134,4 +134,5 @@ export interface RecentStakingTx {
   amount: string;
   date: Date | null | undefined;
   type: StakeType;
+  txId: string;
 }
