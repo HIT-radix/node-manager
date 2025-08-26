@@ -14,6 +14,7 @@ import {
   UnlockingRewards,
   ValidatorItem,
   UnstakeClaimNFTDATA,
+  RecentStakingTx,
 } from "Types/api";
 import {
   setValidatorDataLoading,
@@ -31,6 +32,7 @@ import {
   StateEntityNonFungiblesPageResponse,
 } from "@radixdlt/babylon-gateway-api-sdk";
 import Decimal from "decimal.js";
+import { StakeType } from "Types/enum";
 
 export const fetchBalances = async (walletAddress: string) => {
   const fungibleBalance: FungibleBalances = {};
@@ -408,4 +410,81 @@ export const filterUserRelatedNodes = (
     return userHasPoolUnits || userIsOwner || userHasClaimNfts;
   });
   dispatch(setUserValidatorList(filteredValidators));
+};
+
+export const fetchRecentNodeTx_Base = async (
+  validatorAddress: string,
+  entityAddress: string,
+  stakeType: StakeType
+) => {
+  const manifestClass = stakeType === StakeType.Stake ? "ValidatorStake" : "ValidatorClaim";
+  const eventType = stakeType === StakeType.Stake ? "StakeEvent" : "ClaimXrdEvent";
+
+  const result = await CachedService.gatewayApi.stream.innerClient.streamTransactions({
+    streamTransactionsRequest: {
+      limit_per_page: 25,
+      opt_ins: { detailed_events: true },
+      manifest_class_filter: { _class: manifestClass },
+      affected_global_entities_filter: [validatorAddress, entityAddress],
+    },
+  });
+
+  let recentTxDetails: RecentStakingTx[] = [];
+
+  result.items.forEach((tx) => {
+    let accountAddress = "";
+    let amount = "";
+
+    if (tx.receipt?.detailed_events) {
+      for (const event of tx.receipt.detailed_events) {
+        if (event.identifier.event === "LockFeeEvent") {
+          accountAddress =
+            event.emitter.type === "EntityMethod" ? event.emitter.global_emitter : "";
+        }
+
+        if (
+          event.identifier.event === eventType &&
+          event.emitter.type === "EntityMethod" &&
+          event.emitter.global_emitter === validatorAddress
+        ) {
+          amount = (event.payload.programmatic_json as { fields: { value: string }[] }).fields[0]
+            .value;
+        }
+
+        if (accountAddress !== "" && amount !== "") {
+          break;
+        }
+      }
+
+      if (accountAddress !== "" && amount !== "") {
+        recentTxDetails.push({
+          date: tx.confirmed_at,
+          account: accountAddress,
+          amount,
+          type: stakeType,
+        });
+      }
+    }
+  });
+
+  return recentTxDetails;
+};
+
+export const fetchRecentNodeTxs = async (
+  validatorAddress: string,
+  nodeLSUaddress: string,
+  claimNftAddress: string
+) => {
+  const stakeTxs = await fetchRecentNodeTx_Base(validatorAddress, nodeLSUaddress, StakeType.Stake);
+  const unstakeTxs = await fetchRecentNodeTx_Base(
+    validatorAddress,
+    claimNftAddress,
+    StakeType.Unstake
+  );
+
+  const allTxs = [...stakeTxs, ...unstakeTxs].sort(
+    (a, b) => new Date(b?.date || 0).getTime() - new Date(a?.date || 0).getTime()
+  );
+
+  return allTxs;
 };
