@@ -6,6 +6,7 @@ import { StakeType } from "Types/enum";
 import { RecentStakingTx } from "Types/api";
 import { conciseAddress } from "Utils/format";
 import useCopyToClipboard from "hooks/useCopyToClipboard";
+import { NumDisplay } from "numdisplay";
 
 const RecentTxUi = () => {
   const { id: nodeAddress } = useParams<{ id: string }>();
@@ -81,10 +82,7 @@ const RecentTxDesktop = ({ transactions }: { transactions: RecentStakingTx[] }) 
                 </div>
               </td>
               <td className="text-center font-mono">
-                {parseFloat(tx.amount).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 6,
-                })}
+                <NumDisplay value={tx.amount} type="token" className="w-full" />
               </td>
               <td className="text-center">
                 <span className={`font-semibold ${getTypeColor(tx.type)}`}>
@@ -151,11 +149,7 @@ const TransactionCard = ({ transaction }: { transaction: RecentStakingTx }) => {
         <div className="flex items-center gap-2">
           <div className="text-right">
             <div className="font-mono font-semibold text-white">
-              {parseFloat(transaction.amount).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 6,
-              })}{" "}
-              XRD
+              <NumDisplay value={transaction.amount} type="token" /> XRD
             </div>
           </div>
           {isOpen ? (
