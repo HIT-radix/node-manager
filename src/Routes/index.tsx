@@ -6,6 +6,7 @@ import MainLayout from "Layout/mainLayout";
 
 const Home = lazy(() => import("Pages/Home"));
 const Node = lazy(() => import("Pages/Node"));
+const NodeTxs = lazy(() => import("Pages/NodeTxs"));
 
 export default function Routes() {
   const navigate = useNavigate();
@@ -25,6 +26,14 @@ export default function Routes() {
       element: (
         <MainLayout>
           <Node />
+        </MainLayout>
+      ),
+    },
+    {
+      path: "/tx/:id",
+      element: (
+        <MainLayout>
+          <NodeTxs />
         </MainLayout>
       ),
     },
