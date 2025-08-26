@@ -1,3 +1,5 @@
+import { StakeType } from "./enum";
+
 interface ResourceDetails {
   amount: string;
   last_updated_at_state_version: number;
@@ -126,3 +128,10 @@ export type ValidatorItem = {
   claim_nft: string;
   fee: FeeFactor;
 };
+
+export interface RecentStakingTx {
+  account: string;
+  amount: string;
+  date: Date | null | undefined;
+  type: StakeType;
+}
