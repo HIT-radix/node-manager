@@ -256,28 +256,31 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
         );
       }
 
-      store.dispatch(
-        setValidatorInfo({
-          currentlyEarnedLockedLSUs: vaultsBalance[NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS] || "0",
-          ownerLSUsInUnlockingProcess: ownerLSUsInUnlockingProcess.toString(),
-          totalStakedXrds: vaultsBalance[NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS] || "0",
-          totalXrdsLeavingOurNode: vaultsBalance[NODE_UNSTAKING_XRD_VAULT_ADDRESS] || "0",
-          unlockingLSUsBreakdown: rewardsInUnlockingProcess,
-          epoch,
-          unlockedLSUs: unlockedLSUs.toString(),
-          metadata,
-          stakeUnitAddress,
-          vaults: {
-            NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
-            NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
-            NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
-            NODE_UNSTAKING_XRD_VAULT_ADDRESS,
-          },
-          validatorAddress,
-          fees,
-        })
-      );
+      const info = {
+        currentlyEarnedLockedLSUs: vaultsBalance[NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS] || "0",
+        ownerLSUsInUnlockingProcess: ownerLSUsInUnlockingProcess.toString(),
+        totalStakedXrds: vaultsBalance[NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS] || "0",
+        totalXrdsLeavingOurNode: vaultsBalance[NODE_UNSTAKING_XRD_VAULT_ADDRESS] || "0",
+        unlockingLSUsBreakdown: rewardsInUnlockingProcess,
+        epoch,
+        unlockedLSUs: unlockedLSUs.toString(),
+        metadata,
+        stakeUnitAddress,
+        vaults: {
+          NODE_CURRENTLY_EARNED_LSU_VAULT_ADDRESS,
+          NODE_OWNER_UNLOCKING_LSU_VAULT_ADDRESS,
+          NODE_TOTAL_STAKED_XRD_VAULT_ADDRESS,
+          NODE_UNSTAKING_XRD_VAULT_ADDRESS,
+        },
+        validatorAddress,
+        fees,
+      };
+
+      store.dispatch(setValidatorInfo(info));
       dispatch(setValidatorInfoFound(true));
+      store.dispatch(setValidatorDataLoading(false));
+
+      return info;
     } else {
       dispatch(setValidatorInfoFound(false));
       dispatch(clearValidatorInfo());
@@ -288,6 +291,7 @@ export const fetchValidatorInfo = async (validatorAddress: string) => {
     dispatch(clearValidatorInfo());
   }
   store.dispatch(setValidatorDataLoading(false));
+  return undefined;
 };
 
 export const fetchUnstakeCLaimNFTData = async (claimNFTAddress: string, nftIds: string[]) => {
