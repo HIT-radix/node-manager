@@ -466,6 +466,7 @@ export const fetchRecentNodeTx_Base = async (
           account: accountAddress,
           amount,
           type: stakeType,
+          txId: tx.intent_hash ?? "",
         });
       }
     }
