@@ -7,6 +7,7 @@ const initialState: LoadingReducer = {
   validatorDataLoading: false,
   unstakeClaimNFtsDataLoading: false,
   validatorsListLoading: false,
+  recentNodeTxLoading: false,
 };
 
 const loadings = createSlice({
@@ -28,6 +29,9 @@ const loadings = createSlice({
     setValidatorsListLoading(state, action: PayloadAction<boolean>) {
       state.validatorsListLoading = action.payload;
     },
+    setRecentNodeTxLoading(state, action: PayloadAction<boolean>) {
+      state.recentNodeTxLoading = action.payload;
+    },
   },
 });
 
@@ -39,4 +43,5 @@ export const {
   setValidatorDataLoading,
   setUnstakeClaimNFtsDataLoading,
   setValidatorsListLoading,
+  setRecentNodeTxLoading,
 } = loadings.actions;
