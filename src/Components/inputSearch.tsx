@@ -13,7 +13,7 @@ const InputSearch = () => {
         <MainLayout>
           <div
             className="flex gap-2 mb-2 cursor-pointer"
-            onClick={() => CachedService.navigation(window.location.origin)}
+            onClick={() => CachedService.navigation(-1)}
           >
             <MoveLeft className="text-secondary" />
             <p className="text-secondary underline">Back</p>
