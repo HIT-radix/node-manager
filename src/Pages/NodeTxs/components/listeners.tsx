@@ -10,6 +10,12 @@ const Listeners = () => {
   const { id: nodeAddress } = useParams<{ id: string }>();
 
   useEffect(() => {
+    return () => {
+      dispatch(setInputSearch(""));
+    };
+  }, []);
+
+  useEffect(() => {
     (async () => {
       if (nodeAddress) {
         dispatch(setRecentNodeTxLoading(true));
