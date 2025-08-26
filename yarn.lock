@@ -1694,10 +1694,10 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-core-api-sdk/-/babylon-core-api-sdk-1.2.3.tgz#78cb557cb777238ac6c6abf708c970dde799f096"
   integrity sha512-BORxmE7j7jn+glNErr/d6n/focPGxYwie0a7G/0OUjjjUE/IlRjgnS5u2vh8mW3Sln7BiCg+UvXGoM1pV7fIsg==
 
-"@radixdlt/babylon-gateway-api-sdk@^1.7.3":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.7.3.tgz#f87e0a6b74567bae8e0206b466a50ee4b600fbd9"
-  integrity sha512-wmdWX0AWCRSfKf6C3euiksJx9fpiGDN/8Hvmnw7PrHAY82k+CLaewWOL9P8pVD/s0mVXmReuOk9s3wJ5i+Nrxw==
+"@radixdlt/babylon-gateway-api-sdk@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.10.1.tgz#6ae6ed8684fc59e6a3138babae329f4b74770fa0"
+  integrity sha512-l/Pt1qaxi2I99ykl9oS4pO+AzBmpMY6oqMOBq0ABbpg7YqqaugZU3OUP/tI0SQsIR1QvXYGdxlsS+HnhioeHlA==
 
 "@radixdlt/radix-dapp-toolkit@^2.1.1":
   version "2.1.1"
