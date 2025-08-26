@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { useSelector } from "Store";
 import { StakeType } from "Types/enum";
 import { RecentStakingTx } from "Types/api";
-import { conciseAddress } from "Utils/format";
+import { conciseAddress, generateExplorerTxLink } from "Utils/format";
 import useCopyToClipboard from "hooks/useCopyToClipboard";
 import { NumDisplay } from "numdisplay";
 
@@ -60,6 +60,7 @@ const RecentTxDesktop = ({ transactions }: { transactions: RecentStakingTx[] }) 
       <table className="table text-white w-full">
         <thead>
           <tr className="text-white text-center">
+            <th>Transaction</th>
             <th>Date</th>
             <th>Account</th>
             <th>Amount (XRD)</th>
@@ -69,6 +70,16 @@ const RecentTxDesktop = ({ transactions }: { transactions: RecentStakingTx[] }) 
         <tbody>
           {transactions.map((tx, index) => (
             <tr key={`${tx.account}-${index}`} className="hover:bg-base-200">
+              <td className="text-center">
+                <a
+                  href={generateExplorerTxLink(tx.txId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
+                >
+                  {conciseAddress(tx.txId, 6, 6)}
+                </a>
+              </td>
               <td className="text-center">{formatDate(tx.date)}</td>
               <td className="">
                 <div className="flex items-center justify-center text-sm">
@@ -114,11 +125,8 @@ const TransactionCard = ({ transaction }: { transaction: RecentStakingTx }) => {
   const formatDate = (date: Date | null | undefined) => {
     if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
     });
   };
 
@@ -149,7 +157,12 @@ const TransactionCard = ({ transaction }: { transaction: RecentStakingTx }) => {
         <div className="flex items-center gap-2">
           <div className="text-right">
             <div className="font-mono font-semibold text-white">
-              <NumDisplay value={transaction.amount} type="token" /> XRD
+              <NumDisplay
+                value={transaction.amount}
+                type="token"
+                suffix="XRD"
+                suffixClassName="text-white"
+              />
             </div>
           </div>
           {isOpen ? (
@@ -167,19 +180,49 @@ const TransactionCard = ({ transaction }: { transaction: RecentStakingTx }) => {
         }}
       >
         <div className="p-4 pt-0 ">
-          <div className="flex flex-col items-center justify-center">
-            <p className="font-semibold text-sm text-secondary/80 mb-2">Account Address:</p>
-            <div className="flex items-center text-sm break-all text-center">
-              <span className="mr-2 text-white">{conciseAddress(transaction.account, 7, 7)}</span>
-              <span
-                className="text-white cursor-pointer opacity-50 hover:opacity-100"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  copyToClipboard(transaction.account);
-                }}
-              >
-                <Copy size={16} />
-              </span>
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div>
+              <p className="font-semibold text-sm text-secondary/80 mb-2 text-center">
+                Account Address:
+              </p>
+              <div className="flex items-center text-sm break-all text-center">
+                <span className="mr-2 text-white">{conciseAddress(transaction.account, 7, 7)}</span>
+                <span
+                  className="text-white cursor-pointer opacity-50 hover:opacity-100"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    copyToClipboard(transaction.account);
+                  }}
+                >
+                  <Copy size={16} />
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <p className="font-semibold text-sm text-secondary/80 mb-2 text-center">
+                Transaction ID:
+              </p>
+              <div className="flex items-center text-sm break-all text-center">
+                <a
+                  href={generateExplorerTxLink(transaction.txId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 hover:underline cursor-pointer mr-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {conciseAddress(transaction.txId, 7, 7)}
+                </a>
+                <span
+                  className="text-white cursor-pointer opacity-50 hover:opacity-100"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    copyToClipboard(transaction.txId);
+                  }}
+                >
+                  <Copy size={16} />
+                </span>
+              </div>
             </div>
           </div>
         </div>
