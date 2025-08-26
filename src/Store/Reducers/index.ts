@@ -7,6 +7,7 @@ import app from "./app";
 import session from "./session";
 import loadings from "./loadings";
 import nodeManager from "./nodeManager";
+import recentTxs from "./recentTxs";
 
 const persistConfig = {
   version: 1,
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   session,
   loadings,
   nodeManager,
+  recentTxs,
 });
 
 const rootReducer = (state: any, action: any) => {
