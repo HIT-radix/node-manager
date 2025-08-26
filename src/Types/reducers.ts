@@ -58,4 +58,5 @@ export type LoadingReducer = {
   validatorDataLoading: boolean;
   unstakeClaimNFtsDataLoading: boolean;
   validatorsListLoading: boolean;
+  recentNodeTxLoading: boolean;
 };
