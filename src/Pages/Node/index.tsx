@@ -5,6 +5,7 @@ import NodeSkeletons from "./components/skeletons";
 import { useSelector } from "Store";
 import ToggleView from "./components/toggleView";
 import AlertMessage from "./components/alertMessage";
+import RecentTransactionsButton from "./components/recentTransactionsButton";
 
 const Node = () => {
   const validatorDataLoading = useSelector((state) => state.loadings.validatorDataLoading);
@@ -18,6 +19,7 @@ const Node = () => {
         <>
           <AlertMessage />
           <NodeMetadata />
+          <RecentTransactionsButton />
           <ToggleView />
           <NodeManager />
         </>
