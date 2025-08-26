@@ -1,11 +1,19 @@
 import { WalletDataState } from "@radixdlt/radix-dapp-toolkit";
-import { FeeFactor, UnlockingRewards, UnstakeClaimNFTDATA, ValidatorItem } from "./api";
+import {
+  FeeFactor,
+  RecentStakingTx,
+  UnlockingRewards,
+  UnstakeClaimNFTDATA,
+  ValidatorItem,
+} from "./api";
 
 export type AppReducer = {
   walletData: WalletDataState;
   walletAddress: string;
   isNodeOwnerView: boolean;
 };
+
+export type RecentTxReducer = Record<string, RecentStakingTx[]>;
 
 export type FungibleBalances = Record<string, { tokenAddress: string; amount: string }>;
 
